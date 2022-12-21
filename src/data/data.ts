@@ -1,4 +1,4 @@
-import { DataGoods } from '../models/types';
+import { DataGoods } from '../models';
 
 export const dataGoods: DataGoods = {
   products: [
