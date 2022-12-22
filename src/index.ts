@@ -1,5 +1,5 @@
 import App from './components/app';
-import './global.css';
+import './global.scss';
 
 declare global {
   interface Window {
