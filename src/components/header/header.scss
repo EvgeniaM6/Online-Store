@@ -1,0 +1,89 @@
+@import '../../sass/constants.scss';
+
+.header {
+  &__container {
+    background-color: $dark-color;
+    border-bottom: 2px solid $logo-color;
+    border-radius: 0 0 1.5rem 1.5rem;
+  }
+
+  &__block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      color: $logo-color;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        color: $logo-color-hover;
+      }
+
+      &__image {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+        // background: url();
+        background: $logo-color-hover;
+      }
+    }
+
+    .client {
+      display: flex;
+      align-items: center;
+
+      .total {
+        margin-right: 10px;
+        color: $gray-light-color;
+        min-width: 200px;
+
+        &__text {
+          color: $logo-color;
+          margin-right: 5px;
+        }
+      }
+
+      .basket {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70px;
+        height: 70px;
+
+        &__container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 90%;
+          height: 90%;
+          // background: url();
+          background: $gray-color;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        &__num-block {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          color: $gray-light-color;
+          background: $text-color;
+          border: 1px solid $logo-color;
+        }
+      }
+    }
+  }
+}
