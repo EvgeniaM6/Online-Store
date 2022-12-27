@@ -1,0 +1,35 @@
+/* ====== footer ====== */
+footer {
+  background-color: var(--accent2-color);
+}
+
+.footer__container {
+  display: flex;
+  height: 80px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-team {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.info-team__author {
+  color: var(--light-text-color);
+}
+.info-team__divider {
+  color: var(--text-color);
+}
+
+.rss-logo {
+  height: 48px;
+  width: 60px;
+  background: url(../../assets/svg/rss.svg) no-repeat center center;
+  background-size: contain;
+  transition: 0.3s;
+}
+
+.rss-logo:hover {
+  filter: invert(83%) sepia(73%) saturate(503%) hue-rotate(358deg) brightness(50%) contrast(91%);
+}
