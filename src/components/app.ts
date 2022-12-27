@@ -1,9 +1,9 @@
-import Header from './header/header';
+import DrawElements from './drawElements';
 
 export default class App {
-  header: Header;
+    currentPage: DrawElements;
 
-  constructor() {
-    this.header = new Header();
-  }
+    constructor() {
+        this.currentPage = new DrawElements();
+    }
 }
