@@ -1,22 +1,22 @@
 export class CreateNode {
-    parentElem?: HTMLElement | null;
-    tagName: string | undefined;
-    className: string | undefined;
-    textContent: string | undefined;
-    node: HTMLElement;
+  parentElem?: HTMLElement | null;
+  tagName: string | undefined;
+  className: string | undefined;
+  textContent: string | undefined;
+  node: HTMLElement;
 
-    constructor(parentElem: HTMLElement | null, tagName = 'div', className = '', textContent = '') {
-        const elem: HTMLElement = document.createElement(tagName);
-        this.node = elem;
+  constructor(parentElem: HTMLElement | null, tagName = 'div', className = '', textContent = '') {
+    const elem: HTMLElement = document.createElement(tagName);
+    this.node = elem;
 
-        elem.className = className;
-        elem.textContent = textContent;
-        if (parentElem) {
-            parentElem.append(elem);
-        }
+    elem.className = className;
+    elem.textContent = textContent;
+    if (parentElem) {
+      parentElem.append(elem);
     }
+  }
 
-    destroy(): void {
-        this.node.remove();
-    }
+  destroy(): void {
+    this.node.remove();
+  }
 }
