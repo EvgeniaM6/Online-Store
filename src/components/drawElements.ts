@@ -1,25 +1,26 @@
-import Header from './header/header';
-import { CreateNode } from '../utilities/createNode';
-import { footerTemplate } from './footer/footer';
+// import { CreateNode } from '../utilities/createNode';
 
 export default class DrawElements {
-    page: unknown; // !исправить тип
+  constructor() {
+    //
+  }
 
-    constructor() {
-        this.page = this.drawMainPage();
-    }
+  drawMainPage(): void {
+    // нарисовать главную страницу с фильтрами
+  }
 
-    drawMainPage(): void {
-        this.drawHeader();
-        this.drawFooter();
-    }
+  changeFilters(): void {
+    // перерисовать главную страницу с фильтрами
+  }
 
-    drawHeader(): void {
-        const header = new Header();
-    }
+  drawBasketPage(): void {
+    // нарисовать корзину
+  }
+  drawDetailPage(id: number): void {
+    console.log(id); // нарисовать карточку товара по переданному id
+  }
 
-    drawFooter(): void {
-        const footer = new CreateNode(document.body, 'footer', 'footer', '');
-        footer.node.innerHTML = footerTemplate();
-    }
+  drawPayWindow(): void {
+    // нарисовать окно для платежа
+  }
 }

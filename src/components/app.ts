@@ -1,9 +1,15 @@
+import Header from './header/header';
 import DrawElements from './drawElements';
+import Footer from './footer/footer';
 
 export default class App {
-    currentPage: DrawElements;
+  header: Header;
+  footer: Footer;
+  currentPage: DrawElements;
 
-    constructor() {
-        this.currentPage = new DrawElements();
-    }
+  constructor() {
+    this.header = new Header();
+    this.footer = new Footer();
+    this.currentPage = new DrawElements();
+  }
 }
