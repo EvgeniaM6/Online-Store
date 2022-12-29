@@ -1,22 +1,21 @@
 // colors
-:root {
-  --dark--color: #000000;
-  --text-color: #333B41;
-  --gray-color: #767474;
-  --gray-light-color: #ababab;
-  --accent1-color: #e47209;
-  --accent2-color: #4b9200;
-  --accent3-color: #ffee2e;
-  --error-color: #d21414;
-}
+
+//https: //color.romanuke.com/tsvetovaya-palitra-3306/
+//https: //color.romanuke.com/tsvetovaya-palitra-3237/
 
 $dark-color: #000000;
-$text-color: #333B41;
+$text-color: #181c1e;
 $gray-color: #767474;
+$light-text-color: #ffffff;
 $gray-light-color: #ababab;
-$accent1-color: #e47209;
-$accent2-color: #4b9200;
-$accent3-color: #ffee2e;
+$light-color-1: #f5f0eb; //bg main
+$light-color-2: #cbd4d8;
+$accent1-color: #643d6e; //accent
+$accent2-color: #5f6e03; //accent
+$accent3-color: #f3f331; //hover
+$accent4-color: #a982b4;
+$accent5-color: #c7eb5e;
+$accent6-color: #e47209;
 $error-color: #d21414;
 
 $logo-color: #ffa500;
