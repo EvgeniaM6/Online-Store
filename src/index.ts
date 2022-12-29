@@ -6,5 +6,6 @@ declare global {
     app: App;
   }
 }
-// console.log('hello, world!');
+console.log('hello, world!');
 window.app = new App();
+window.app.start();

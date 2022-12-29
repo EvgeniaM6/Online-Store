@@ -14,11 +14,11 @@ export default class App {
     this.footer = new Footer();
     this.currentPage = new DrawElements();
     this.router = new Router();
-    window.addEventListener('hashchange', () => this.renderRoute());
   }
 
-  renderRoute(): void {
-    console.log('hashchange!');
+  start(): void {
+    this.header.drawLayout();
+    this.footer.drawFooter();
     this.router.checkHref();
   }
 }

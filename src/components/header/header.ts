@@ -7,10 +7,8 @@ export default class Header {
   clientBasketNum: HTMLElement;
 
   constructor() {
-    // console.log('header');
     this.clientTotalSum = createElem('span', 'total__sum');
     this.clientBasketNum = createElem('div', 'basket__num');
-    this.drawLayout();
   }
 
   drawLayout(): void {
@@ -79,8 +77,6 @@ export default class Header {
   }
 
   buildPage(page: string): void {
-    // вып. ф-ция из другого модуля, которая выз. др. ф-ции: обновить адрес (page), нарисовать страницу (page)
-    console.log(`build ${page}`);
     window.app.router.changeHref(page);
   }
 }
