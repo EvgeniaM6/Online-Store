@@ -62,6 +62,9 @@
           width: 90%;
           height: 90%;
           background: url('../../assets/png/basket.png');
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center;
           // background: $gray-color;
           cursor: pointer;
           transition: all 0.3s ease-in-out;
