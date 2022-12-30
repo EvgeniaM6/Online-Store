@@ -2,10 +2,6 @@ import { CreateNode } from '../../utilities';
 import './footer.scss';
 
 export default class Footer {
-  constructor() {
-    this.drawFooter();
-  }
-
   drawFooter(): void {
     const footer = new CreateNode(document.body, 'footer', 'footer', '');
     footer.node.innerHTML = this.footerTemplate();

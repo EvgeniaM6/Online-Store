@@ -1,3 +1,4 @@
+import { Routes } from '../../models';
 import { createElem } from '../../utilities';
 import './header.scss';
 
@@ -6,10 +7,8 @@ export default class Header {
   clientBasketNum: HTMLElement;
 
   constructor() {
-    console.log('header');
     this.clientTotalSum = createElem('span', 'total__sum');
     this.clientBasketNum = createElem('div', 'basket__num');
-    this.drawLayout();
   }
 
   drawLayout(): void {
@@ -20,7 +19,7 @@ export default class Header {
     const logoBlock: HTMLElement = createElem('div', 'logo', headerEl);
     createElem('div', 'logo__image', logoBlock);
     createElem('h1', 'logo__title', logoBlock, 'Online Store');
-    logoBlock.addEventListener('click', () => this.buildPage('main'));
+    logoBlock.addEventListener('click', () => this.buildPage(Routes.Main));
 
     const clientBlock: HTMLElement = createElem('div', 'client', headerEl);
     const clientTotalBlock: HTMLElement = createElem('div', 'client__total total', clientBlock);
@@ -32,7 +31,7 @@ export default class Header {
     const clientBasketContainer: HTMLElement = createElem('div', 'basket__container', clientBasketBlock);
     const clientBasketNumBlock: HTMLElement = createElem('div', 'basket__num-block', clientBasketContainer);
     clientBasketNumBlock.append(this.clientBasketNum);
-    clientBasketBlock.addEventListener('click', () => this.buildPage('basket'));
+    clientBasketBlock.addEventListener('click', () => this.buildPage(Routes.Basket));
 
     const totalSum = 0; // вместо 0 получить из переменной сумму и кол-во покупок в корзине
     const totalAmount = 0;
@@ -78,7 +77,6 @@ export default class Header {
   }
 
   buildPage(page: string): void {
-    // вып. ф-ция из другого модуля, которая выз. др. ф-ции: обновить адрес (page), нарисовать страницу (page)
-    console.log(`build ${page}`);
+    window.app.router.changeHref(page);
   }
 }

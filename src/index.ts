@@ -8,3 +8,4 @@ declare global {
 }
 console.log('hello, world!');
 window.app = new App();
+window.app.start();

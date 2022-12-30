@@ -1,0 +1,75 @@
+import { IUrl, Routes } from '../models';
+
+export default class Router {
+  currentUrl: IUrl = this.getRoute();
+
+  constructor() {
+    window.addEventListener('hashchange', () => this.checkHref());
+  }
+
+  checkHref(): void {
+    if (location.href.slice(0, -1) === location.origin || !location.hash) {
+      this.changeHref(Routes.Main);
+      return;
+    }
+    const urlObj: IUrl = this.getRoute();
+    this.renderRoute(urlObj);
+  }
+
+  changeHref(page: string, id?: number): void {
+    if (this.currentUrl.hash === page) return;
+    let newHref = `${location.origin}#${page}`;
+    newHref = id ? `${newHref}/${id}` : newHref;
+    location.href = newHref;
+    this.updateCurrentUrl();
+  }
+
+  getRoute(): IUrl {
+    const [hashFull, queries] = location.hash.slice(1).split('?');
+    const [hash, id] = hashFull.split('/');
+    const url: IUrl = {
+      hash,
+    };
+    if (id) {
+      url.id = +id;
+    }
+    if (queries) url.queries = new URLSearchParams(queries);
+    return url;
+  }
+
+  updateCurrentUrl(): void {
+    this.currentUrl = this.getRoute();
+  }
+
+  renderRoute(url: IUrl): void {
+    switch (url.hash) {
+      case Routes.Main:
+        this.drawMain(url.queries);
+        break;
+      case Routes.Basket:
+        this.drawBasket();
+        break;
+      case Routes.Details:
+        this.drawDetails(url.id);
+        break;
+      default:
+        this.draw404();
+    }
+  }
+
+  drawMain(queryParams?: URLSearchParams): void {
+    window.app.currentPage.drawMainPage(queryParams);
+  }
+
+  drawBasket(): void {
+    window.app.currentPage.drawBasketPage();
+  }
+
+  drawDetails(id?: number): void {
+    window.app.currentPage.drawDetailPage(id);
+  }
+
+  draw404(): void {
+    window.app.currentPage.drawError404();
+  }
+}
