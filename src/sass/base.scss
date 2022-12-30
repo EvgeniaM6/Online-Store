@@ -41,3 +41,67 @@ a:active {
 .hide {
   display: none;
 }
+
+.btn {
+  border-radius: 5px;
+  padding: 5px 10px;
+  min-width: 100px;
+  background-color: $accent2-color;
+  color: $light-text-color;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn--col-5 {
+  background-color: $accent5-color;
+  color: $text-color;
+}
+
+.btn:hover,
+.btn:focus,
+.btn--col-5:hover {
+  background-color: $accent1-color;
+  color: $light-text-color;
+}
+
+input:checked {
+  accent-color: $accent1-color;
+  color: $accent1-color;
+}
+
+// scrollbar in overflow-y
+::-webkit-scrollbar-track {
+  background: $gray-light-color;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $accent1-color;
+  border-radius: 10px;
+  border: 2px solid $gray-light-color;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+.input--big {
+  height: 21px;
+  width: 180px;
+  background-color: $light-color-1;
+  color: $accent1-color;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input--big:focus {
+  outline: 2px solid $accent1-color;
+}
+
+.input::placeholder,
+.input--big::placeholder {
+  font-weight: 500;
+  color: $gray-color;
+}
