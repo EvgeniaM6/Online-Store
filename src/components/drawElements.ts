@@ -8,6 +8,7 @@ export default class DrawElements {
   drawMainPage(queryParams?: URLSearchParams): void {
     // нарисовать главную страницу с фильтрами
     console.log('drawMainPage works', queryParams?.toString());
+    window.app.dataBase.getProductsByParams(queryParams);
   }
 
   changeFilters(): void {
