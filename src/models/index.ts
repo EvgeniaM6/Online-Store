@@ -1,6 +1,7 @@
 import { Routes } from './routes';
 import { DataGoods, IProducts } from './types';
 import { IUrl } from './url';
-import { Filters } from './filters';
+import { Filters, SortDirections } from './filters';
+import { IBasketProduct } from './basket';
 
-export { DataGoods, Routes, IUrl, IProducts, Filters };
+export { DataGoods, Routes, IUrl, IProducts, Filters, SortDirections, IBasketProduct };
