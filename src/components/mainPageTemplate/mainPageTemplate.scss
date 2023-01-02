@@ -27,6 +27,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 0 10px 0;
+  gap: 5px
 }
 
 // ================
@@ -90,4 +91,8 @@
 
 .products__card {
   flex: 0 1 calc(24% - 10px / 2);
+}
+
+.products__card.view-2 {
+  flex: 0 1 100%;
 }

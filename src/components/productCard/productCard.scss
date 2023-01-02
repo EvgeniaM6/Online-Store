@@ -62,3 +62,51 @@
   padding: 5px 0;
   gap: 5px;
 }
+
+//=================
+//add class="view-2"
+
+.card.view-2 {
+  display: flex;
+  justify-content: space-between;
+  min-height: 100px;
+  max-height: 120px;
+  gap: 5px;
+}
+
+.card.view-2 .card__img {
+  flex: 0 0 25%;
+  margin: 0px 5px -5px 0px;
+  max-width: 170px;
+  min-height: auto;
+  height: 100%;
+  overflow: hidden;
+}
+
+.card.view-2 .card__img img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card.view-2 .card__main-info {
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 0 0 120px;
+}
+
+.card.view-2 .card__title {
+  font-size: 16px;
+}
+
+.card.view-2 .card__price {
+  font-size: 18px;
+}
+
+.card.view-2 .card__info {
+  flex: 1 1 auto;
+}
+
+.card.view-2 .card__btns {
+  flex: 0 1 205px;
+}
