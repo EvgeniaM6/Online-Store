@@ -48,10 +48,16 @@ a:active {
   min-width: 100px;
   background-color: $accent2-color;
   color: $light-text-color;
+  height: 30px;
   cursor: pointer;
   transition: 0.3s;
 }
 
+.btn--col-3 {
+  background-color: $accent3-color;
+  color: $text-color;
+  font-weight: 700;
+}
 .btn--col-5 {
   background-color: $accent5-color;
   color: $text-color;
