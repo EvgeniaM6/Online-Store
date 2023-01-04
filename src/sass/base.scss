@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.4;
@@ -86,7 +86,8 @@ a:active {
   width: 10px;
 }
 
-input {
+input,
+select {
   height: 21px;
   background-color: $light-color-1;
   color: $accent1-color;
@@ -95,14 +96,8 @@ input {
   border-radius: 5px;
   cursor: pointer;
 }
-
-.input--big {
-  width: 180px;
-}
-
-.input--payment {
-  width: 100%;
-  height: 30px;
+input[type="range"] {
+  padding: 0;
 }
 
 input:checked {
@@ -129,10 +124,26 @@ input:invalid:required {
   border: 1px solid $error-color;
 }
 
-input:valid {
+input:valid:required {
   outline: 1px solid $accent2-color;
+}
+
+input[type="checkbox"],
+input[type="checkbox"]:focus:valid,
+input[type="range"]:focus,
+input[type="range"]:focus:valid {
+  outline: none;
 }
 
 input:focus:invalid {
   border: none;
+}
+
+.input--big {
+  width: 180px;
+}
+
+.input--payment {
+  width: 100%;
+  height: 30px;
 }
