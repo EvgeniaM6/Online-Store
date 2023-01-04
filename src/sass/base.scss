@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  font-family: "Roboto", Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.4;
@@ -70,11 +70,6 @@ a:active {
   color: $light-text-color;
 }
 
-input:checked {
-  accent-color: $accent1-color;
-  color: $accent1-color;
-}
-
 // scrollbar in overflow-y
 ::-webkit-scrollbar-track {
   background: $gray-light-color;
@@ -91,9 +86,8 @@ input:checked {
   width: 10px;
 }
 
-.input--big {
+input {
   height: 21px;
-  width: 180px;
   background-color: $light-color-1;
   color: $accent1-color;
   font-weight: 700;
@@ -102,12 +96,43 @@ input:checked {
   cursor: pointer;
 }
 
-.input--big:focus {
+.input--big {
+  width: 180px;
+}
+
+.input--payment {
+  width: 100%;
+  height: 30px;
+}
+
+input:checked {
+  accent-color: $accent1-color;
+  color: $accent1-color;
+}
+
+input:focus,
+input:focus:valid {
   outline: 2px solid $accent1-color;
 }
 
-.input::placeholder,
-.input--big::placeholder {
+input::placeholder {
   font-weight: 500;
   color: $gray-color;
+}
+
+//delete value from placeholder when focused
+input:focus::placeholder {
+  color: transparent;
+}
+
+input:invalid:required {
+  border: 1px solid $error-color;
+}
+
+input:valid {
+  outline: 1px solid $accent2-color;
+}
+
+input:focus:invalid {
+  border: none;
 }

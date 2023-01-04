@@ -1,0 +1,87 @@
+@import "../../sass/constants.scss";
+
+.popup {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  &__content {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 440px;
+    background-color: $light-color-2;
+    padding: 20px;
+    border-radius: 5px;
+  }
+}
+
+.form {
+  &__person-details {
+    margin: 0 0 20px 0;
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 500;
+    color: $accent1-color;
+    text-align: center;
+    margin: 0 0 10px 0;
+  }
+
+  &__item {
+    margin: 0 0 10px 0;
+  }
+
+  &__card-details {
+    margin: 0 0 20px 0;
+  }
+
+  &__data {
+  }
+
+  &__btn {
+    text-align: center;
+  }
+}
+
+.card-data {
+  max-width: 240px;
+  margin: 0 auto;
+  background-color: $accent4-color;
+  border-radius: 5px;
+  padding: 25px 15px;
+
+  input {
+    text-align: center;
+  }
+
+  &__card-number {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 20px 0;
+  }
+
+  &__card-number img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__info input {
+    width: 55px;
+  }
+
+  &__valid-data {
+    font-weight: 500;
+  }
+}
