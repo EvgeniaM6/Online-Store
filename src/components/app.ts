@@ -3,6 +3,7 @@ import DrawElements from './drawElements';
 import Footer from './footer/footer';
 import Router from './router';
 import DataBase from './dataBase';
+import MainPageTemplate from './mainPageTemplate/mainPageTemplate';
 
 export default class App {
   header: Header;
@@ -10,6 +11,7 @@ export default class App {
   currentPage: DrawElements;
   router: Router;
   dataBase: DataBase;
+  mainPageTemplate: MainPageTemplate;
 
   constructor() {
     this.header = new Header();
@@ -17,6 +19,7 @@ export default class App {
     this.currentPage = new DrawElements();
     this.router = new Router();
     this.dataBase = new DataBase();
+    this.mainPageTemplate = new MainPageTemplate();
   }
 
   start(): void {
