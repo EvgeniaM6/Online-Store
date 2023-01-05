@@ -147,3 +147,44 @@ input:focus:invalid {
   width: 100%;
   height: 30px;
 }
+
+// ===== popup ======
+.popup {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  &__content {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 440px;
+    background-color: $light-color-2;
+    padding: 20px;
+    border-radius: 5px;
+  }
+}
+
+.popup-message {
+  z-index: 15;
+
+  &__content {
+    width: 60%;
+    margin: 0 auto;
+    max-width: 300px;
+    background-color: $accent2-color;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  &__message-info {
+    color: $light-text-color;
+    font-size: 18px;
+    text-align: center;
+  }
+}
