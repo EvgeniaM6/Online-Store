@@ -17,7 +17,6 @@
   "author": "EvgeniaM6 & avshir",
   "license": "ISC",
   "homepage": "",
-  "type": "module",
   "devDependencies": {
     "@types/jest": "^29.2.5",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
