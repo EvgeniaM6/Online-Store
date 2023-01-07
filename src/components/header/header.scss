@@ -3,11 +3,6 @@
 .header {
   background-color: $accent2-color;
 
-  // &__container {
-  //   border-bottom: 2px solid $accent1-color;
-  //   border-radius: 0 0 1.5rem 1.5rem;
-  // }
-
   &__block {
     display: flex;
     justify-content: space-between;
@@ -50,6 +45,7 @@
       }
 
       .basket {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -57,9 +53,6 @@
         height: 70px;
 
         &__container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
           width: 90%;
           height: 90%;
           background: url('../../assets/png/basket.png');
@@ -77,6 +70,9 @@
         }
 
         &__num-block {
+          position: absolute;
+          right: -10px;
+          bottom: -10px;
           display: flex;
           justify-content: center;
           align-items: center;
