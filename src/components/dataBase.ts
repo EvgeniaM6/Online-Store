@@ -20,7 +20,7 @@ export default class DataBase {
   }
 
   getProductsByParams(queryParams?: URLSearchParams): Array<IProducts> {
-    if (!queryParams) return [];
+    if (!queryParams) return this.getAllProducts();
     let data: Array<IProducts> = [...this.data];
     Object.values(Filters).forEach((filterType) => {
       data = this.filterProductsByParam(data, filterType, queryParams);
@@ -114,5 +114,31 @@ export default class DataBase {
     } else {
       this.deleteProductFromBasket(id);
     }
+  }
+
+  checkProductInBasket(obj: IProducts): boolean {
+    return this.basket.some((basketProduct) => basketProduct.product === obj);
+  }
+
+  countBasketTotal(): number {
+    return this.basket.reduce((acc, basketProduct) => {
+      acc += basketProduct.amount * basketProduct.product.price;
+      return acc;
+    }, 0);
+  }
+
+  countProductsInBasket(): number {
+    return this.basket.reduce((acc, basketProduct) => {
+      acc += basketProduct.amount;
+      return acc;
+    }, 0);
+  }
+
+  getFiltersList(filterType: string): Set<string> {
+    const values: Set<string> = new Set();
+    this.data.forEach((productObj) => {
+      values.add((productObj[filterType as keyof IProducts] as string).toLowerCase());
+    });
+    return values;
   }
 }
