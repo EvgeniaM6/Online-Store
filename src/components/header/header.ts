@@ -33,13 +33,13 @@ export default class Header {
     clientBasketNumBlock.append(this.clientBasketNum);
     clientBasketBlock.addEventListener('click', () => this.buildPage(Routes.Basket));
 
-    const totalSum = 0; // вместо 0 получить из переменной сумму и кол-во покупок в корзине
-    const totalAmount = 0;
-    this.updateData(totalSum, totalAmount);
+    this.updateData();
   }
 
-  updateData(totalSum: number, totalAmount: number): void {
+  updateData(): void {
+    const totalSum = window.app.dataBase.countBasketTotal();
     this.updateTotalSum(totalSum);
+    const totalAmount = window.app.dataBase.countProductsInBasket();
     this.updateTotalAmount(totalAmount);
   }
 
