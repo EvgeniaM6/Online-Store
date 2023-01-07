@@ -8,10 +8,12 @@ export default class MainPageTemplate {
     main.innerHTML = '';
     const mainPageTemplate = new CreateNode(main, 'div', 'products container', '');
     mainPageTemplate.node.innerHTML = this.mainTemplate();
+    const resetBtn = mainPageTemplate.node.querySelector('.reset-btn');
+    resetBtn?.addEventListener('click', () => this.resetHref());
     const data = window.app.dataBase.getProductsByParams(queryParams);
     this.updateFoundProductsNumber(data.length);
     this.renderProductCards(data);
-    this.renderFilters();
+    this.renderFilters(data);
   }
 
   renderProductCards(data: Array<IProducts>): void {
@@ -23,8 +25,8 @@ export default class MainPageTemplate {
     });
   }
 
-  renderFilters(): void {
-    window.app.filter.drawFilter();
+  renderFilters(data: Array<IProducts>): void {
+    window.app.filter.drawFilter(data);
   }
 
   clearCardsContainer(): void {
@@ -36,6 +38,10 @@ export default class MainPageTemplate {
     const numberElem = document.querySelector('#found-products-num');
     if (!numberElem) return;
     numberElem.textContent = `${num}`;
+  }
+
+  resetHref(): void {
+    window.app.router.resetHref();
   }
 
   mainTemplate(): string {

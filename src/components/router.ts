@@ -105,4 +105,8 @@ export default class Router {
     location.href = newHref;
     this.updateCurrentUrl();
   }
+
+  resetHref(): void {
+    location.href = `${location.origin}#${Routes.Main}`;
+  }
 }
