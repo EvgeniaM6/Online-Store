@@ -110,3 +110,12 @@
 .card.view-2 .card__btns {
   flex: 0 1 205px;
 }
+
+.btn.add-to-cart-btn:focus,
+.reset-btn.btn:focus {
+  background-color: $accent2-color;
+}
+
+.btn.add-to-cart-btn.added {
+  background-color: $accent1-color;
+}

@@ -1,4 +1,4 @@
-import { IProducts } from '../../models';
+import { Filters, IProducts } from '../../models';
 import { CreateNode } from '../../utilities';
 import './mainPageTemplate.scss';
 
@@ -8,8 +8,17 @@ export default class MainPageTemplate {
     main.innerHTML = '';
     const mainPageTemplate = new CreateNode(main, 'div', 'products container', '');
     mainPageTemplate.node.innerHTML = this.mainTemplate();
-    const resetBtn = mainPageTemplate.node.querySelector('.reset-btn');
-    resetBtn?.addEventListener('click', () => this.resetHref());
+    const resetBtn = mainPageTemplate.node.querySelector('.reset-btn') as HTMLElement;
+    resetBtn.addEventListener('click', () => this.resetHref());
+    const searchInput = mainPageTemplate.node.querySelector('.search-filter') as HTMLInputElement;
+    if (queryParams) {
+      const searchValue = queryParams.get(Filters.Search);
+      searchInput.value = searchValue || '';
+      if (searchValue) {
+        searchInput.focus();
+      }
+    }
+    searchInput.addEventListener('input', (e) => this.searchInput(e));
     const data = window.app.dataBase.getProductsByParams(queryParams);
     this.updateFoundProductsNumber(data.length);
     this.renderProductCards(data);
@@ -42,6 +51,10 @@ export default class MainPageTemplate {
 
   resetHref(): void {
     window.app.router.resetHref();
+  }
+
+  searchInput(event: Event): void {
+    window.app.router.changeHrefBySearchInput(event);
   }
 
   mainTemplate(): string {
