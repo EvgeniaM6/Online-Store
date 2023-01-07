@@ -1,11 +1,14 @@
 // import { CreateNode } from '../../utilities';
-import { IProducts, Routes } from '../../models';
+import { CardsViews, IProducts, Routes } from '../../models';
 import { createElem } from '../../utilities';
 import './productCard.scss';
 
 export default class ProductCard {
-  createProductCardElem(obj: IProducts): HTMLElement {
+  createProductCardElem(obj: IProducts, isView2: boolean): HTMLElement {
     const card = createElem('div', 'products__card card');
+    if (isView2) {
+      card.classList.add(CardsViews[1]);
+    }
     card.innerHTML = this.drawProductCard(obj);
     const hasBasketProduct = window.app.dataBase.checkProductInBasket(obj);
     const btnAdd = card.querySelector('.add-to-cart-btn') as HTMLElement;
