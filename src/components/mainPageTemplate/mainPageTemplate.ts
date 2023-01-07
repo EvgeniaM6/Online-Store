@@ -1,11 +1,41 @@
+import { IProducts } from '../../models';
 import { CreateNode } from '../../utilities';
 import './mainPageTemplate.scss';
 
 export default class MainPageTemplate {
-  drawMainPageTemplate(): void {
+  drawMainPageTemplate(queryParams?: URLSearchParams): void {
     const main = document.querySelector('.main') as HTMLElement;
+    main.innerHTML = '';
     const mainPageTemplate = new CreateNode(main, 'div', 'products container', '');
     mainPageTemplate.node.innerHTML = this.mainTemplate();
+    const data = window.app.dataBase.getProductsByParams(queryParams);
+    this.updateFoundProductsNumber(data.length);
+    this.renderProductCards(data);
+    this.renderFilters();
+  }
+
+  renderProductCards(data: Array<IProducts>): void {
+    this.clearCardsContainer();
+    const cardsContainer = document.querySelector('.products__cards') as HTMLElement;
+    data.forEach((obj) => {
+      const cardElem = window.app.productCard.createProductCardElem(obj);
+      cardsContainer.append(cardElem);
+    });
+  }
+
+  renderFilters(): void {
+    window.app.filter.drawFilter();
+  }
+
+  clearCardsContainer(): void {
+    const cardsContainer = document.querySelector('.products__cards') as HTMLElement;
+    cardsContainer.innerHTML = '';
+  }
+
+  updateFoundProductsNumber(num: number): void {
+    const numberElem = document.querySelector('#found-products-num');
+    if (!numberElem) return;
+    numberElem.textContent = `${num}`;
   }
 
   mainTemplate(): string {
@@ -33,7 +63,7 @@ export default class MainPageTemplate {
               <option value="discount-DESC">Sort by discount DESC</option>
             </select>
           </div>
-          <div class="found-products">Found: <span>100</span></div>
+          <div class="found-products">Found: <span id="found-products-num"></span></div>
           <div class="search-bar">
             <input class="search-filter input--big" type="search" placeholder="Search product..." />
           </div>
