@@ -4,6 +4,8 @@ import Footer from './footer/footer';
 import Router from './router';
 import DataBase from './dataBase';
 import MainPageTemplate from './mainPageTemplate/mainPageTemplate';
+import ProductCard from './productCard/productCard';
+import Filter from './filter/filter';
 
 export default class App {
   header: Header;
@@ -12,6 +14,8 @@ export default class App {
   router: Router;
   dataBase: DataBase;
   mainPageTemplate: MainPageTemplate;
+  productCard: ProductCard;
+  filter: Filter;
 
   constructor() {
     this.header = new Header();
@@ -20,6 +24,8 @@ export default class App {
     this.router = new Router();
     this.dataBase = new DataBase();
     this.mainPageTemplate = new MainPageTemplate();
+    this.productCard = new ProductCard();
+    this.filter = new Filter();
   }
 
   start(): void {
