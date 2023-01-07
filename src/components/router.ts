@@ -1,4 +1,4 @@
-import { Filters, IUrl, Routes } from '../models';
+import { CardsViews, Filters, IUrl, Routes } from '../models';
 
 export default class Router {
   currentUrl: IUrl = this.getRoute();
@@ -112,9 +112,7 @@ export default class Router {
   }
 
   changeHrefBySearchInput(event: Event): void {
-    console.log('event=', event);
     const value = (event.target as HTMLInputElement)?.value;
-    console.log('value=', value);
     const currentUrl = this.getRoute();
     const queryParamsObj = currentUrl.queries;
     let newHref;
@@ -129,6 +127,36 @@ export default class Router {
       const queryParamsStr = `${queryParamsObj.toString().toLowerCase()}`;
       newHref = `${location.origin}#${Routes.Main}`;
       newHref = queryParamsStr ? `${newHref}?${queryParamsStr}` : `${newHref}`;
+    }
+    location.href = newHref;
+    this.updateCurrentUrl();
+  }
+
+  changeHrefBySort(selectedOption: string): void {
+    const currentUrl = this.getRoute();
+    const queryParamsObj = currentUrl.queries;
+    let newHref;
+    if (!queryParamsObj) {
+      newHref = `${location.href}?${Filters.Sort}=${selectedOption}`;
+    } else {
+      queryParamsObj.set(Filters.Sort, selectedOption);
+      const queryParamsStr = `${queryParamsObj.toString()}`;
+      newHref = `${location.origin}#${Routes.Main}?${queryParamsStr}`;
+    }
+    location.href = newHref;
+    this.updateCurrentUrl();
+  }
+
+  changeHrefByView(i: number): void {
+    const currentUrl = this.getRoute();
+    const queryParamsObj = currentUrl.queries;
+    let newHref;
+    if (!queryParamsObj) {
+      newHref = `${location.href}?${Filters.View}=${CardsViews[i]}`;
+    } else {
+      queryParamsObj.set(Filters.View, CardsViews[i]);
+      const queryParamsStr = `${queryParamsObj.toString()}`;
+      newHref = `${location.origin}#${Routes.Main}?${queryParamsStr}`;
     }
     location.href = newHref;
     this.updateCurrentUrl();
