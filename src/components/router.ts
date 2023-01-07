@@ -72,4 +72,37 @@ export default class Router {
   draw404(): void {
     window.app.currentPage.drawError404();
   }
+
+  changeHrefByQueryParam(queryParamType: string, queryParamValue: string): void {
+    const currentUrl = this.getRoute();
+    const queryParamsObj = currentUrl.queries;
+    let newHref;
+    if (!queryParamsObj) {
+      newHref = `${location.href}?${queryParamType.toLowerCase()}=${queryParamValue.toLowerCase()}`;
+    } else {
+      const queryParam = queryParamsObj.get(queryParamType);
+      if (queryParam) {
+        const queryParamArr = queryParam.split('*');
+        if (!queryParamArr.includes(queryParamValue)) {
+          const newQueryParam = `${queryParam}*${queryParamValue}`;
+          queryParamsObj.set(queryParamType, newQueryParam);
+        } else {
+          const newQueryParamArr = queryParamArr.filter((queryParam) => queryParam !== queryParamValue);
+          const newQueryParam = newQueryParamArr.join('*');
+          if (newQueryParam) {
+            queryParamsObj.set(queryParamType, newQueryParam);
+          } else {
+            queryParamsObj.delete(queryParamType);
+          }
+        }
+      } else {
+        queryParamsObj.set(queryParamType, queryParamValue);
+      }
+      const queryParamsStr = `${queryParamsObj.toString().toLowerCase()}`;
+      newHref = `${location.origin}#${Routes.Main}`;
+      newHref = queryParamsStr ? `${newHref}?${queryParamsStr}` : `${newHref}`;
+    }
+    location.href = newHref;
+    this.updateCurrentUrl();
+  }
 }
