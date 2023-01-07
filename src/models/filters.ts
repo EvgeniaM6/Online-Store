@@ -5,6 +5,7 @@ export enum Filters {
   Stock = 'ds:stock',
   Search = 'search',
   Sort = 'sort',
+  View = 'view',
 }
 
 export enum SortDirections {
@@ -14,4 +15,9 @@ export enum SortDirections {
   RatingDESC = 'rating-DESC',
   DiscountASC = 'discount-ASC',
   DiscountDESC = 'discount-DESC',
+}
+
+export enum CardsViews {
+  'view-1',
+  'view-2',
 }

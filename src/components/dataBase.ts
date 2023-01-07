@@ -35,7 +35,7 @@ export default class DataBase {
   ): Array<IProducts> {
     let filteredData = [...data];
     const paramValues = queryParams.get(paramType);
-    if (filteredData.length && paramValues) {
+    if (filteredData.length && paramValues && paramType !== Filters.View) {
       if (paramType === Filters.Sort) {
         if ((Object.values(SortDirections) as string[]).includes(paramValues)) {
           this.sortDataBy(filteredData, paramValues);
