@@ -1,4 +1,4 @@
-import { IUrl, Routes } from '../models';
+import { Filters, IUrl, Routes } from '../models';
 
 export default class Router {
   currentUrl: IUrl = this.getRoute();
@@ -108,5 +108,29 @@ export default class Router {
 
   resetHref(): void {
     location.href = `${location.origin}#${Routes.Main}`;
+    this.updateCurrentUrl();
+  }
+
+  changeHrefBySearchInput(event: Event): void {
+    console.log('event=', event);
+    const value = (event.target as HTMLInputElement)?.value;
+    console.log('value=', value);
+    const currentUrl = this.getRoute();
+    const queryParamsObj = currentUrl.queries;
+    let newHref;
+    if (!queryParamsObj) {
+      newHref = `${location.href}?${Filters.Search}=${value.toLowerCase()}`;
+    } else {
+      if (value) {
+        queryParamsObj.set(Filters.Search, value);
+      } else {
+        queryParamsObj.delete(Filters.Search);
+      }
+      const queryParamsStr = `${queryParamsObj.toString().toLowerCase()}`;
+      newHref = `${location.origin}#${Routes.Main}`;
+      newHref = queryParamsStr ? `${newHref}?${queryParamsStr}` : `${newHref}`;
+    }
+    location.href = newHref;
+    this.updateCurrentUrl();
   }
 }
