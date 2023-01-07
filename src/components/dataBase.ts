@@ -134,11 +134,22 @@ export default class DataBase {
     }, 0);
   }
 
-  getFiltersList(filterType: string): Set<string> {
-    const values: Set<string> = new Set();
+  getFiltersList(filterType: string): Array<string> {
+    const values: Array<string> = [];
     this.data.forEach((productObj) => {
-      values.add((productObj[filterType as keyof IProducts] as string).toLowerCase());
+      const key = productObj[filterType as keyof IProducts] as string;
+      const hasValue = values.some((value) => value.toLowerCase() === key.toLowerCase());
+      if (!hasValue) {
+        values.push(key);
+      }
     });
     return values;
+  }
+
+  countProductsByParam(filterType: string, filterValue: string): number {
+    const arr = this.data.filter((productObj) => {
+      return (productObj[filterType as keyof IProducts] as string).toLowerCase() === filterValue.toLowerCase();
+    });
+    return arr.length;
   }
 }
