@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  font-family: "Roboto", Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.4;
@@ -53,6 +53,22 @@ a:active {
   transition: 0.3s;
 }
 
+.btn--cart {
+  min-width: auto;
+  width: 30px;
+  height: 21px;
+  line-height: 1;
+  font-size: 14px;
+}
+
+.btn--big {
+  width: 100%;
+}
+
+.btn--mini {
+  min-width: auto;
+}
+
 .btn--col-3 {
   background-color: $accent3-color;
   color: $text-color;
@@ -70,6 +86,23 @@ a:active {
   color: $light-text-color;
 }
 
+.amount-of {
+  display: inline-block;
+  width: 45px;
+  text-align: center;
+  border-radius: 5px;
+
+  height: 21px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 2px 5px;
+  color: $accent1-color;
+  background-color: $light-color-1;
+  cursor: pointer;
+}
+.amount-of--dark-bg {
+  background-color: $light-color-2;
+}
 // scrollbar in overflow-y
 ::-webkit-scrollbar-track {
   background: $gray-light-color;
@@ -96,7 +129,7 @@ select {
   border-radius: 5px;
   cursor: pointer;
 }
-input[type="range"] {
+input[type='range'] {
   padding: 0;
 }
 
@@ -128,10 +161,10 @@ input:valid:required {
   outline: 1px solid $accent2-color;
 }
 
-input[type="checkbox"],
-input[type="checkbox"]:focus:valid,
-input[type="range"]:focus,
-input[type="range"]:focus:valid {
+input[type='checkbox'],
+input[type='checkbox']:focus:valid,
+input[type='range']:focus,
+input[type='range']:focus:valid {
   outline: none;
 }
 
@@ -146,6 +179,11 @@ input:focus:invalid {
 .input--payment {
   width: 100%;
   height: 30px;
+}
+
+.input--num {
+  width: 45px;
+  text-align: center;
 }
 
 // ===== popup ======
