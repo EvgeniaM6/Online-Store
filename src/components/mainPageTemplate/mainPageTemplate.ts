@@ -3,34 +3,36 @@ import { createElem, CreateNode } from '../../utilities';
 import './mainPageTemplate.scss';
 
 export default class MainPageTemplate {
-  canCopy: boolean;
-
-  constructor() {
-    this.canCopy = true;
-  }
+  canCopy = true;
+  numberElem: HTMLElement | null = null;
+  viewBtnsArr: Array<HTMLElement> = [];
+  selectElem: HTMLSelectElement | null = null;
+  searchInputElem: HTMLInputElement | null = null;
+  cardsContainer: HTMLElement | null = null;
 
   drawMainPageTemplate(queryParams?: URLSearchParams): void {
     const main = document.querySelector('.main') as HTMLElement;
     main.innerHTML = '';
     const mainPageTemplate = new CreateNode(main, 'div', 'products container', '');
     mainPageTemplate.node.innerHTML = this.mainTemplate();
+    this.numberElem = document.querySelector('#found-products-num');
     const resetBtn = mainPageTemplate.node.querySelector('.reset-btn') as HTMLElement;
     resetBtn.addEventListener('click', () => this.resetHref());
     const copyBtn = mainPageTemplate.node.querySelector('.copy-url-btn') as HTMLElement;
     copyBtn.addEventListener('click', (e) => this.copyLink(e.target as HTMLButtonElement));
-    const searchInput = mainPageTemplate.node.querySelector('.search-filter') as HTMLInputElement;
+    this.searchInputElem = mainPageTemplate.node.querySelector('.search-filter') as HTMLInputElement;
     let sortValue = '';
     let viewValue = '';
     if (queryParams) {
       const searchValue = queryParams.get(Filters.Search);
-      searchInput.value = searchValue || '';
+      this.searchInputElem.value = searchValue || '';
       if (searchValue) {
-        searchInput.focus();
+        this.searchInputElem.focus();
       }
       sortValue = queryParams.get(Filters.Sort) || '';
       viewValue = queryParams.get(Filters.View) || '';
     }
-    searchInput.addEventListener('input', (e) => this.searchInput(e));
+    this.searchInputElem.addEventListener('input', (e) => this.searchInput(e));
     const data = window.app.dataBase.getProductsByParams(queryParams);
     this.drawOptions(sortValue);
     this.createViewButtons(viewValue);
@@ -42,17 +44,21 @@ export default class MainPageTemplate {
 
   renderProductCards(data: Array<IProducts>, viewValue: string): void {
     this.clearCardsContainer();
-    const cardsContainer = document.querySelector('.products__cards') as HTMLElement;
+    this.cardsContainer = document.querySelector('.products__cards') as HTMLElement;
+    this.cardsContainer.innerHTML = '';
+    this.cardsContainer.classList.remove('empty');
     const isView2 = viewValue === CardsViews[1];
-    if (viewValue === CardsViews[1]) {
-      cardsContainer.classList.add(CardsViews[1]);
+    if (isView2) {
+      this.cardsContainer.classList.add(CardsViews[1]);
+    } else {
+      this.cardsContainer.classList.remove(CardsViews[1]);
     }
     if (!data.length) {
-      this.drawNoProductsFound(cardsContainer);
+      this.drawNoProductsFound();
     } else {
       data.forEach((obj) => {
         const cardElem = window.app.productCard.createProductCardElem(obj, isView2);
-        cardsContainer.append(cardElem);
+        this.cardsContainer?.append(cardElem);
       });
     }
   }
@@ -67,9 +73,8 @@ export default class MainPageTemplate {
   }
 
   updateFoundProductsNumber(num: number): void {
-    const numberElem = document.querySelector('#found-products-num');
-    if (!numberElem) return;
-    numberElem.textContent = `${num}`;
+    if (!this.numberElem) return;
+    this.numberElem.textContent = `${num}`;
   }
 
   resetHref(): void {
@@ -81,19 +86,35 @@ export default class MainPageTemplate {
   }
 
   drawOptions(sortValue: string): void {
-    const selectElem = document.querySelector('.sort-by__select') as HTMLElement;
+    this.selectElem = document.querySelector('.sort-by__select') as HTMLSelectElement;
     const isSelected = !sortValue;
     const optionDefault = new Option('Sort options:', 'sort-title', isSelected, isSelected);
     optionDefault.className = 'sort-name';
     optionDefault.disabled = true;
-    selectElem.append(optionDefault);
+    this.selectElem.append(optionDefault);
     Object.values(SortDirections).forEach((sortDirection) => {
       const isSelected = sortValue === sortDirection;
       const text = `Sort by ${sortDirection.replace('-', ' ')}`;
       const option = new Option(text, sortDirection, isSelected, isSelected);
-      selectElem.append(option);
+      if (this.selectElem) {
+        this.selectElem.append(option);
+      }
     });
-    selectElem.addEventListener('change', (e) => this.changeSorting(e));
+    this.selectElem.addEventListener('change', (e) => this.changeSorting(e));
+  }
+
+  updateOptions(sortValue: string) {
+    if (!this.selectElem) return;
+    const optionsCollection = this.selectElem.options;
+    if (!sortValue) {
+      this.selectElem.options[0].defaultSelected = true;
+      this.selectElem.options[0].selected = true;
+    } else {
+      Array.from(optionsCollection).forEach((option) => {
+        option.defaultSelected = option.value === sortValue;
+        option.selected = option.value === sortValue;
+      });
+    }
   }
 
   changeSorting(event: Event): void {
@@ -106,16 +127,33 @@ export default class MainPageTemplate {
   createViewButtons(viewValue: string): void {
     const viewCardsContainer = document.querySelector('.view-cards') as HTMLElement;
     const viewNum = viewValue ? +viewValue.split('-')[1] : 1;
+    this.viewBtnsArr = [];
     for (let i = 0; i < 2; i += 1) {
       const viewBtn = createElem('div', `view-card view-card__${i + 1}`, viewCardsContainer, CardsViews[i]);
       if (viewNum - 1 === i) {
         viewBtn.classList.add('active');
       }
       viewBtn.addEventListener('click', () => this.changeView(i));
+      this.viewBtnsArr.push(viewBtn);
     }
   }
 
   changeView(i: number): void {
+    this.changeHrefByView(i);
+    // this.changeClassOnViewBtn(i);
+  }
+
+  changeClassOnViewBtn(i: number): void {
+    this.viewBtnsArr.forEach((btnElem, index) => {
+      if (index === i) {
+        btnElem.classList.add('active');
+      } else {
+        btnElem.classList.remove('active');
+      }
+    });
+  }
+
+  changeHrefByView(i: number): void {
     window.app.router.changeHrefByView(i);
   }
 
@@ -167,9 +205,42 @@ export default class MainPageTemplate {
     `;
   }
 
-  drawNoProductsFound(containerElem: HTMLElement) {
-    containerElem.classList.add('empty');
+  drawNoProductsFound() {
+    if (!this.cardsContainer) return;
+    this.cardsContainer?.classList.add('empty');
+    this.cardsContainer.innerHTML = '';
     const text = 'No products found';
-    createElem('div', 'unfound', containerElem, text);
+    createElem('div', 'unfound', this.cardsContainer, text);
+  }
+
+  updateDualSlider(): void {
+    window.app.dualFilter.updateDualSlider();
+  }
+
+  updateMainPage(queryParams?: URLSearchParams): void {
+    let sortValue = '';
+    let viewValue = '';
+    let viewValueNum = 0;
+    let searchValue;
+    if (queryParams) {
+      searchValue = queryParams.get(Filters.Search);
+      sortValue = queryParams.get(Filters.Sort) || '';
+      viewValue = queryParams.get(Filters.View) || '';
+      viewValueNum = viewValue ? +viewValue.slice(-1) - 1 : 0;
+    }
+    if (this.searchInputElem) {
+      this.searchInputElem.value = searchValue || '';
+      if (searchValue) {
+        this.searchInputElem.focus();
+      }
+    }
+    console.log('queryParams=', queryParams?.toString());
+    const data = window.app.dataBase.getProductsByParams(queryParams);
+    this.updateFoundProductsNumber(data.length);
+    window.app.filter.updateNumberFilters(data);
+    this.renderProductCards(data, viewValue);
+    this.changeClassOnViewBtn(viewValueNum);
+    this.updateOptions(sortValue);
+    this.updateDualSlider();
   }
 }
