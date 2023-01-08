@@ -37,7 +37,7 @@ export default class MainPageTemplate {
     this.updateFoundProductsNumber(data.length);
     this.renderProductCards(data, viewValue);
     this.renderFilters(data);
-    this.renderDualFilter();
+    this.renderDualFilter(data);
   }
 
   renderProductCards(data: Array<IProducts>, viewValue: string): void {
@@ -119,8 +119,8 @@ export default class MainPageTemplate {
     window.app.router.changeHrefByView(i);
   }
 
-  renderDualFilter(): void {
-    window.app.dualFilter.createDualFilterElems();
+  renderDualFilter(data: Array<IProducts>): void {
+    window.app.dualFilter.createDualFilterElems(data);
   }
 
   copyLink(eTarget: HTMLButtonElement): void {

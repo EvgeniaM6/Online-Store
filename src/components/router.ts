@@ -161,4 +161,8 @@ export default class Router {
     location.href = newHref;
     this.updateCurrentUrl();
   }
+
+  changeHrefBySlider(sliderType: string, from: number, to: number) {
+    console.log('changeHrefBySlider!', 'sliderType=', sliderType, 'from=', from, 'to=', to);
+  }
 }
