@@ -181,4 +181,12 @@ export default class DataBase {
     const arrMinMax = [minValue, maxValue];
     return arrMinMax;
   }
+
+  getBasket(): Array<IBasketProduct> {
+    return this.basket;
+  }
+
+  clearBasket(): void {
+    this.basket = [];
+  }
 }
