@@ -1,19 +1,62 @@
-import { CreateNode } from '../../utilities';
 import './basketPage.scss';
 import { IProducts } from '../../models/types';
+import { arrProductsInCart } from '../../data/testData'; //test data
 
 export default class BasketPage {
   drawBasketPage(): void {
     const main = document.querySelector('.main') as HTMLElement;
     main.innerHTML = this.basketPageTemplate();
 
+    //show items from arrProductsInCart
+    let basketItems = '';
+    arrProductsInCart.forEach((obj, index) => {
+      basketItems += this.basketPageItemTemplate(obj, index);
+    });
     const basketPageItems = document.querySelector('.basket-page__items') as HTMLElement;
+    basketPageItems.innerHTML = basketItems;
+
+    // ==========
+    //add-remove countProduct(item) in cart, update for product amountSum
+    if (basketPageItems) {
+      basketPageItems.addEventListener('click', (e) => {
+        const currBtn = e.target as HTMLElement;
+
+        const parentCurrBtn = currBtn.parentElement as HTMLElement;
+        const countCurrProducts = parentCurrBtn.querySelector('.basket-product-info__amount.amount-of') as HTMLElement;
+        let currCount = Number(countCurrProducts.textContent);
+        const currAmountSum = parentCurrBtn.nextElementSibling as HTMLElement;
+        const currPriceElem = parentCurrBtn.previousElementSibling as HTMLElement;
+        const currPrice = Number(currPriceElem.textContent?.slice(7, -2).trim());
+
+        if (currBtn.id === 'add-product-btn') {
+          currCount++;
+          countCurrProducts.textContent = `${currCount}`;
+        }
+
+        if (currBtn.id === 'remove-product-btn') {
+          if (currCount > 0) {
+            currCount--;
+            countCurrProducts.textContent = `${currCount}`;
+          }
+        }
+
+        //update data
+        currAmountSum.textContent = `Total: ${currPrice * currCount} $`;
+
+        //обновить данные о количестве в arrТоваров в вкорзины
+        if (currCount === 0) {
+          //удалить товар из arrТоваров корзины
+          //удалить товар из списка видимых товаров
+          //обновить порядковый номер товара в списке
+        }
+      });
+    }
   }
 
-  basketPageItemTemplate(obj: IProducts): string {
+  basketPageItemTemplate(obj: IProducts, index: number): string {
     return `
     <div class="basket-page__item">
-      <div class="basket-page__item-num">1</div>
+      <div class="basket-page__item-num">${index + 1}</div>
       <div class="basket-page__item-info basket-product-info">
         <div class="basket-product-info__img">
           <img src="${obj.thumbnail}" alt="${obj.title}" />
@@ -28,13 +71,13 @@ export default class BasketPage {
         </ul>
       </div>
       <div class="basket-product-info__summary">
-        <div class="basket-product-info__price"><span>Price: </span> ${obj.price}&nbsp;$</div>
+        <div class="basket-product-info__price"><span>Price: </span>${obj.price}&nbsp;$</div>
         <div class="basket-product-info__amount-info">
-          <button class="basket-product-info__btn btn btn--cart"> - </button>
+          <button class="basket-product-info__btn btn btn--cart" id="remove-product-btn"> - </button>
           <span class="basket-product-info__amount amount-of amount-of--dark-bg">1</span>
-          <button class="basket-product-info__btn btn btn--cart"> + </button>
+          <button class="basket-product-info__btn btn btn--cart" id="add-product-btn"> + </button>
         </div>
-        <div class="basket-product-info__amount-sum"><span>Total: ${obj.price}&nbsp;$</div>
+        <div class="basket-product-info__amount-sum"><span>Total: </span>${obj.price}&nbsp;$</div>
       </div>
     </div>
     `;
