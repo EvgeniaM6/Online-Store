@@ -34,7 +34,7 @@ export default class DataBase {
     queryParams: URLSearchParams
   ): Array<IProducts> {
     let filteredData = [...data];
-    const paramValues = queryParams.get(paramType);
+    const paramValues = queryParams.get(paramType) || '';
     if (filteredData.length && paramValues && paramType !== Filters.View) {
       if (paramType === Filters.Sort) {
         if ((Object.values(SortDirections) as string[]).includes(paramValues)) {
@@ -42,7 +42,13 @@ export default class DataBase {
         }
       } else if (paramType === Filters.Search) {
         filteredData = filteredData.filter((productObj: IProducts) => {
-          return productObj.description.toLocaleLowerCase().includes(paramValues);
+          return Object.keys(productObj).some((key) => {
+            if (key === 'id' || key === 'thumbnail' || key === 'images') {
+              return false;
+            } else {
+              return `${productObj[key as keyof IProducts]}`.toLowerCase().includes(paramValues);
+            }
+          });
         });
       } else if (paramType.slice(0, 3) !== 'ds:') {
         const paramValuesArr: Array<string> = paramValues.split('*');
