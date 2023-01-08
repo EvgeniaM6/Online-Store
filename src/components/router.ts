@@ -4,6 +4,7 @@ export default class Router {
   currentUrl: IUrl = this.getRoute();
 
   constructor() {
+    this.currentUrl.hash = '';
     window.addEventListener('hashchange', () => this.checkHref());
   }
 
@@ -21,7 +22,6 @@ export default class Router {
     let newHref = `${location.origin}#${page}`;
     newHref = id ? `${newHref}/${id}` : newHref;
     location.href = newHref;
-    this.updateCurrentUrl();
   }
 
   getRoute(): IUrl {
@@ -42,9 +42,10 @@ export default class Router {
   }
 
   renderRoute(url: IUrl): void {
+    const isSamePage = this.currentUrl.hash === url.hash;
     switch (url.hash) {
       case Routes.Main:
-        this.drawMain(url.queries);
+        this.drawMain(isSamePage, url.queries);
         break;
       case Routes.Basket:
         this.drawBasket();
@@ -55,10 +56,15 @@ export default class Router {
       default:
         this.draw404();
     }
+    this.updateCurrentUrl();
   }
 
-  drawMain(queryParams?: URLSearchParams): void {
-    window.app.currentPage.drawMainPage(queryParams);
+  drawMain(isSamePage: boolean, queryParams?: URLSearchParams): void {
+    if (isSamePage) {
+      window.app.mainPageTemplate.updateMainPage(queryParams);
+    } else {
+      window.app.mainPageTemplate.drawMainPageTemplate(queryParams);
+    }
   }
 
   drawBasket(): void {
@@ -167,10 +173,11 @@ export default class Router {
     const currentUrl = this.getRoute();
     const queryParamsObj = currentUrl.queries;
     let newHref;
+    const fullSliderType = `ds_${sliderType}`;
     if (!queryParamsObj) {
-      newHref = `${location.href}?${sliderType}=${from}*${to}`;
+      newHref = `${location.href}?${fullSliderType}=${from}*${to}`;
     } else {
-      queryParamsObj.set(sliderType, `${from}*${to}`);
+      queryParamsObj.set(fullSliderType, `${from}*${to}`);
       const queryParamsStr = `${queryParamsObj.toString()}`;
       newHref = `${location.origin}#${Routes.Main}?${queryParamsStr}`;
     }
