@@ -3,6 +3,12 @@ import { createElem, CreateNode } from '../../utilities';
 import './mainPageTemplate.scss';
 
 export default class MainPageTemplate {
+  canCopy: boolean;
+
+  constructor() {
+    this.canCopy = true;
+  }
+
   drawMainPageTemplate(queryParams?: URLSearchParams): void {
     const main = document.querySelector('.main') as HTMLElement;
     main.innerHTML = '';
@@ -11,7 +17,7 @@ export default class MainPageTemplate {
     const resetBtn = mainPageTemplate.node.querySelector('.reset-btn') as HTMLElement;
     resetBtn.addEventListener('click', () => this.resetHref());
     const copyBtn = mainPageTemplate.node.querySelector('.copy-url-btn') as HTMLElement;
-    copyBtn.addEventListener('click', () => navigator.clipboard.writeText(location.toString()));
+    copyBtn.addEventListener('click', (e) => this.copyLink(e.target as HTMLButtonElement));
     const searchInput = mainPageTemplate.node.querySelector('.search-filter') as HTMLInputElement;
     let sortValue = '';
     let viewValue = '';
@@ -41,10 +47,14 @@ export default class MainPageTemplate {
     if (viewValue === CardsViews[1]) {
       cardsContainer.classList.add(CardsViews[1]);
     }
-    data.forEach((obj) => {
-      const cardElem = window.app.productCard.createProductCardElem(obj, isView2);
-      cardsContainer.append(cardElem);
-    });
+    if (!data.length) {
+      this.drawNoProductsFound(cardsContainer);
+    } else {
+      data.forEach((obj) => {
+        const cardElem = window.app.productCard.createProductCardElem(obj, isView2);
+        cardsContainer.append(cardElem);
+      });
+    }
   }
 
   renderFilters(data: Array<IProducts>): void {
@@ -113,6 +123,19 @@ export default class MainPageTemplate {
     window.app.dualFilter.createDualFilterElems();
   }
 
+  copyLink(eTarget: HTMLButtonElement): void {
+    if (!this.canCopy) return;
+    this.canCopy = false;
+    navigator.clipboard.writeText(location.toString());
+    eTarget.textContent = 'Link copied!';
+    eTarget.classList.add('copied');
+    setTimeout(() => {
+      eTarget.textContent = 'Copy link';
+      this.canCopy = true;
+      eTarget.classList.remove('copied');
+    }, 1500);
+  }
+
   mainTemplate(): string {
     return `
       <div class="products__filters">
@@ -142,5 +165,11 @@ export default class MainPageTemplate {
         </div>
       </div>
     `;
+  }
+
+  drawNoProductsFound(containerElem: HTMLElement) {
+    containerElem.classList.add('empty');
+    const text = 'No products found';
+    createElem('div', 'unfound', containerElem, text);
   }
 }
