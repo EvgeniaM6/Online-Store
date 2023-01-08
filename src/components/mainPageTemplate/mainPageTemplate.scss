@@ -73,12 +73,17 @@
 
 .view-card:hover {
   border: 2px solid $accent1-color;
+  background-color: $accent1-color-hover;
 }
 
 .view-card.active {
   background-color: $accent1-color;
   border: 2px solid $accent1-color;
   color: $light-text-color;
+  
+  &:hover {
+    background-color: $accent1-color-hover;
+  }
 }
 
 //===================
@@ -92,6 +97,12 @@
     flex-wrap: wrap;
     justify-content: space-between;
   }
+
+  &.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .products__card {
@@ -100,4 +111,20 @@
 
 .products__card.view-2 {
   flex: 0 1 100%;
+}
+
+// buttons
+.btn.copy-url-btn,
+.btn.reset-btn {
+  &:focus {
+    background-color: $accent2-color;
+  }
+
+  &:hover {
+    background-color: $accent2-color-hover;
+  }
+  
+  &.copied {
+    background-color: $accent1-color;
+  }
 }
