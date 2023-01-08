@@ -1,18 +1,6 @@
 // import { CreateNode } from '../utilities/createNode';
 
 export default class DrawElements {
-  constructor() {
-    //
-  }
-
-  drawMainPage(queryParams?: URLSearchParams): void {
-    window.app.mainPageTemplate.drawMainPageTemplate(queryParams);
-  }
-
-  changeFilters(): void {
-    // перерисовать главную страницу с фильтрами
-  }
-
   drawBasketPage(): void {
     // нарисовать корзину
     console.log('drawBasketPage works');
