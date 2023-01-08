@@ -158,4 +158,27 @@ export default class DataBase {
     });
     return arr.length;
   }
+
+  getMinMaxParam(sliderType: string, data: Array<IProducts> = this.data): Array<number> {
+    const minValue = data.reduce((acc, obj, i) => {
+      const value = +obj[sliderType as keyof IProducts];
+      if (!i) {
+        acc = value;
+      } else {
+        acc = Math.min(acc, value);
+      }
+      return acc;
+    }, 0);
+    const maxValue = data.reduce((acc, obj, i) => {
+      const value = +obj[sliderType as keyof IProducts];
+      if (!i) {
+        acc = value;
+      } else {
+        acc = Math.max(acc, value);
+      }
+      return acc;
+    }, 0);
+    const arrMinMax = [minValue, maxValue];
+    return arrMinMax;
+  }
 }

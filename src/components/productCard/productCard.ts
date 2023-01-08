@@ -52,7 +52,7 @@ export default class ProductCard {
             </div>
             <div class="card__main-info">
               <div class="card__title">${obj.title}</div>
-              <div class="card__price">${obj.price}&nbsp;$</div>
+              <div class="card__price">€&nbsp;${obj.price}</div>
             </div>
             <ul class="card__info">
               <li class="card__category"><span>Category: </span>${obj.category}</li>
