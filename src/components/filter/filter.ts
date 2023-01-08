@@ -1,9 +1,10 @@
-import { Filters, IProducts } from '../../models';
+import { Filters, IFiltersElems, IProducts } from '../../models';
 import { createElem } from '../../utilities';
 import './filter.scss';
 
 export default class Filter {
   filteredData: Array<IProducts>;
+  filtersElems: IFiltersElems = {};
 
   constructor() {
     this.filteredData = [];
@@ -43,17 +44,20 @@ export default class Filter {
 
   createFilterItemElem(filterType: string, filterValue: string, isChecked: boolean): HTMLElement {
     const filterItemElem = createElem('div', 'filter__item');
-    const input = createElem('input', null, filterItemElem) as HTMLInputElement;
-    input.id = filterValue.toLowerCase();
-    input.name = filterValue.toLowerCase();
-    input.type = 'checkbox';
-    input.checked = isChecked;
+    const key = `${filterType.toLowerCase()}_${filterValue.toLowerCase().replace(/ /g, '*')}`;
+    const inputElem = createElem('input', null, filterItemElem) as HTMLInputElement;
+    inputElem.id = filterValue.toLowerCase();
+    inputElem.name = filterValue.toLowerCase();
+    inputElem.type = 'checkbox';
+    inputElem.checked = isChecked;
+    this.filtersElems[`${key}_input`] = inputElem;
     const label = createElem('label', null, filterItemElem, filterValue) as HTMLLabelElement;
     label.setAttribute('for', filterValue.toLowerCase());
     const productsNumElem = createElem('span', 'filter__numbers', filterItemElem) as HTMLElement;
     createElem('span', null, productsNumElem, '(') as HTMLElement;
     const filteredProductsNum = `${this.countFilteredProductsByParam(filterType, filterValue)}`;
-    createElem('span', null, productsNumElem, filteredProductsNum) as HTMLElement;
+    const filteredNumSpan = createElem('span', null, productsNumElem, filteredProductsNum) as HTMLElement;
+    this.filtersElems[`${key}_span`] = filteredNumSpan;
     createElem('span', null, productsNumElem, '/') as HTMLElement;
     const productsNum = `${window.app.dataBase.countProductsByParam(filterType, filterValue)}`;
     createElem('span', null, productsNumElem, productsNum) as HTMLElement;
@@ -79,5 +83,20 @@ export default class Filter {
       return (productObj[filterType as keyof IProducts] as string).toLowerCase() === filterValue.toLowerCase();
     });
     return arr.length;
+  }
+
+  updateNumberFilters(data: Array<IProducts>): void {
+    this.filteredData = [...data];
+    Object.keys(this.filtersElems).forEach((key) => {
+      const [filterType, filterValue, elem] = key.split('_');
+      const changedFilterValue = filterValue.replace(/\*/g, ' ');
+      const numberFilteredProducts = this.countFilteredProductsByParam(filterType, changedFilterValue);
+      if (elem === 'span') {
+        this.filtersElems[key].textContent = `${numberFilteredProducts}`;
+      } else if (elem === 'input') {
+        const queryParam = this.getQueryParam(filterType);
+        (this.filtersElems[key] as HTMLInputElement).checked = queryParam === changedFilterValue;
+      }
+    });
   }
 }
