@@ -142,3 +142,11 @@
     font-weight: 700;
   }
 }
+
+.btn.add-to-cart-btn:hover {
+  background-color: $accent2-color-hover;
+
+  &.added {
+    background-color: $accent1-color-hover;
+  }
+}
