@@ -7,7 +7,7 @@ export default class DataBase {
 
   constructor() {
     this.data = dataGoods.products;
-    this.basket = [];
+    this.basket = this.restoreBasket();
   }
 
   getAllProducts(): Array<IProducts> {
@@ -102,12 +102,14 @@ export default class DataBase {
       amount: 1,
     };
     this.basket.push(newBasketProduct);
+    this.saveBasket();
   }
 
   deleteProductFromBasket(id: number): void {
     const basketProductIndex = this.basket.findIndex((basketProduct) => basketProduct.product.id === id);
     if (!(basketProductIndex + 1)) return;
     this.basket.splice(basketProductIndex, 1);
+    this.saveBasket();
   }
 
   changeAmountInBasket(id: number, isPlus?: boolean): void {
@@ -120,10 +122,11 @@ export default class DataBase {
     } else {
       this.deleteProductFromBasket(id);
     }
+    this.saveBasket();
   }
 
   checkProductInBasket(obj: IProducts): boolean {
-    return this.basket.some((basketProduct) => basketProduct.product === obj);
+    return this.basket.some((basketProduct) => basketProduct.product.id === obj.id);
   }
 
   countBasketTotal(): number {
@@ -188,5 +191,15 @@ export default class DataBase {
 
   clearBasket(): void {
     this.basket = [];
+    this.saveBasket();
+  }
+
+  saveBasket(): void {
+    localStorage.setItem('basket', JSON.stringify(this.basket));
+  }
+
+  restoreBasket(): Array<IBasketProduct> {
+    const basketStr = localStorage.getItem('basket') || '';
+    return basketStr ? JSON.parse(basketStr) : [];
   }
 }
