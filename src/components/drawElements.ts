@@ -9,6 +9,7 @@ export default class DrawElements {
 
   drawDetailPage(id?: number): void {
     console.log('drawDetailPage works', id); // нарисовать карточку товара по переданному id
+    window.app.details.renderDetails(id);
   }
 
   drawPayWindow(): void {
@@ -16,6 +17,7 @@ export default class DrawElements {
   }
 
   drawError404(): void {
-    console.log('404 works'); // нарисовать окно для платежа
+    console.log('404 works');
+    window.app.page404.renderPage404();
   }
 }
