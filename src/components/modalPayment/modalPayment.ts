@@ -34,6 +34,7 @@ export default class ModalPayment {
         window.location.hash = '#main';
       }, 3000);
       //TODO: очистить корзину
+      this.clearBasket();
     });
 
     // const cardNumber = document.querySelector('#card-number') as HTMLInputElement;
@@ -93,6 +94,10 @@ export default class ModalPayment {
     } else {
       cardDataImg.src = invoiceCard;
     }
+  }
+
+  clearBasket(): void {
+    window.app.dataBase.clearBasket();
   }
 
   modalPaymentTemplate(): string {
