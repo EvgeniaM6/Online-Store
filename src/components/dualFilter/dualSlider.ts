@@ -35,8 +35,6 @@ export default class DualFilter {
   }
 
   drawDualControls(sliderType: string, dualSlidersBlock: HTMLElement, data: Array<IProducts>): void {
-    // <input class="dual-slider__fromSlider" type="range" value="10" min="10" max="1748" id="fromSlider"/>
-    // <input class="dual-slider__toSlider" type="range" value="1749" min="11" max="1749" id="toSlider"/>
     const queryParams = this.getQueryParam(sliderType);
     let minQuery, maxQuery;
     if (queryParams) {
@@ -44,7 +42,6 @@ export default class DualFilter {
     }
     const [minValue, maxValue] = this.getMinMaxParam(sliderType);
     const [minShownValue, maxShownValue] = this.getMinMaxParam(sliderType, data);
-    console.log('sliderType=', sliderType, 'min=', minValue, 'max=', maxValue);
     const dualControlsContainer = dualSlidersBlock.querySelector('.dual-slider__control') as HTMLElement;
     const fromSlider = createElem('input', 'dual-slider__fromSlider', dualControlsContainer) as HTMLInputElement;
     fromSlider.type = 'range';
@@ -65,15 +62,6 @@ export default class DualFilter {
   }
 
   drawOutData(sliderType: string, dualSlidersBlock: HTMLElement): void {
-    // `<div class="dual-slider__from-data from-value">
-    //   <span>€</span>
-    //   <span class="from-value__num">10.00</span>
-    // </div>
-    // <span>⟷</span>
-    // <div class="dual-slider__to-data to-value">
-    //   <span>€</span>
-    //   <span class="to-value__num">1100.00</span>
-    // </div>`
     const outDataContainer = dualSlidersBlock.querySelector('.dual-slider__out-data') as HTMLElement;
 
     const fromValue = createElem('div', 'dual-slider__from-data from-value', outDataContainer) as HTMLElement;
@@ -82,7 +70,6 @@ export default class DualFilter {
     }
     const textFromInput = dualSlidersBlock.querySelector('.dual-slider__fromSlider') as HTMLInputElement;
     const textFrom = textFromInput.value;
-    console.log('textFrom=', textFrom);
     createElem('span', 'from-value__num', fromValue, textFrom) as HTMLElement;
 
     createElem('span', null, outDataContainer, '⟷') as HTMLElement;
@@ -93,7 +80,6 @@ export default class DualFilter {
     }
     const textToInput = dualSlidersBlock.querySelector('.dual-slider__toSlider') as HTMLInputElement;
     const textTo = textToInput.value;
-    console.log('textTo=', textTo);
     createElem('span', 'to-value__num', toValue, textTo) as HTMLElement;
   }
 
@@ -179,22 +165,20 @@ export default class DualFilter {
     return queries?.get(param) || undefined;
   }
 
-  updateDualSlider(): void {
-    console.log('updateDualSlider');
+  updateDualSlider(data: Array<IProducts>): void {
     Object.keys(this.filtersElems).forEach((key) => {
       const [sliderType, direction, elem] = key.split('_');
-      if (elem === 'slider') {
-        const queryParamValue = this.getQueryParam(`ds_${sliderType}`);
-        let minValue, maxValue;
-        if (queryParamValue) {
-          [minValue, maxValue] = queryParamValue.split('*');
-        } else {
-          [minValue, maxValue] = this.getMinMaxParam(sliderType);
-          minValue = `${minValue}`;
-          maxValue = `${maxValue}`;
-        }
-        (this.filtersElems[key] as HTMLInputElement).value = direction === 'from' ? minValue : maxValue;
+      if (elem !== 'slider') return;
+      const queryParamValue = this.getQueryParam(`ds_${sliderType}`);
+      let minValue, maxValue;
+      if (queryParamValue) {
+        [minValue, maxValue] = queryParamValue.split('*');
+      } else {
+        [minValue, maxValue] = this.getMinMaxParam(sliderType, data);
+        minValue = `${minValue}`;
+        maxValue = `${maxValue}`;
       }
+      (this.filtersElems[key] as HTMLInputElement).value = direction === 'from' ? minValue : maxValue;
     });
 
     ['price', 'stock'].forEach((sliderType) => {
