@@ -1,9 +1,11 @@
-import { IProducts } from '../../models';
+import { IFiltersElems, IProducts } from '../../models';
+import { createElem } from '../../utilities';
 import ModalPayment from '../modalPayment/modalPayment';
 import './detailsProduct.scss';
 
 export default class Details {
   btnAdd: HTMLButtonElement | null = null;
+  imagesElems: IFiltersElems = {};
 
   renderDetails(id?: number): void {
     if (!id) {
@@ -16,9 +18,10 @@ export default class Details {
       return;
     }
 
-    const main = document.querySelector('.main');
+    const main = document.querySelector('.main') as HTMLElement;
     if (!main) return;
     main.innerHTML = this.drawDetailsProduct(productObj);
+    this.drawImagesDetailsProduct(productObj, main);
 
     const hasBasketProduct = window.app.dataBase.checkProductInBasket(productObj);
     this.btnAdd = main.querySelector('.add-to-cart-btn') as HTMLButtonElement;
@@ -66,18 +69,32 @@ export default class Details {
     return window.app.dataBase.getProductById(id);
   }
 
-  drawImagesDetailsProduct(obj: IProducts) {
-    const arrImages: string[] = obj.images;
-    let listImages = '';
+  drawImagesDetailsProduct(obj: IProducts, main: HTMLElement): void {
+    const imagesBlock = main.querySelector('.product-details__images-mini') as HTMLElement;
 
-    arrImages.forEach((img, index) => {
-      if (index === 0) {
-        listImages += `<img class="active" src="${img}" alt="${obj.title}" />`;
+    obj.images.forEach((img, index) => {
+      const imgElem = createElem('img', null, imagesBlock) as HTMLImageElement;
+      imgElem.src = img;
+      imgElem.alt = obj.title;
+      if (!index) {
+        imgElem.classList.add('active');
+      }
+      imgElem.addEventListener('click', () => this.chooseImage(index));
+      this.imagesElems[index] = imgElem;
+    });
+  }
+
+  chooseImage(index: number): void {
+    const mainImg = document.querySelector('#main-img') as HTMLImageElement;
+    Object.keys(this.imagesElems).forEach((key) => {
+      const imgElem = this.imagesElems[key] as HTMLImageElement;
+      if (+key === index) {
+        imgElem.classList.add('active');
+        mainImg.src = imgElem.src;
       } else {
-        listImages += `<img src="${img}" alt="${obj.title}" />`;
+        imgElem.classList.remove('active');
       }
     });
-    return listImages;
   }
 
   drawDetailsProduct(obj: IProducts): string {
@@ -96,10 +113,10 @@ export default class Details {
                 <div class="product-details__data">
                   <div class="product-details__images">
                     <div class="product-details__images-mini">
-                      ${this.drawImagesDetailsProduct(obj)}
                     </div>
                     <div class="product-details__image">
                       <img
+                        id="main-img"
                         src="${obj.images[0]}"
                         width="340"
                         height="191"
