@@ -17,6 +17,7 @@ export default class DrawElements {
   }
 
   drawError404(): void {
-    console.log('404 works'); // нарисовать окно для платежа
+    console.log('404 works');
+    window.app.page404.renderPage404();
   }
 }

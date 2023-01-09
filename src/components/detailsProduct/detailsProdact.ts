@@ -3,12 +3,22 @@ import './detailsProduct.scss';
 
 export default class Details {
   renderDetails(id?: number): void {
-    if (!id) return;
+    if (!id) {
+      this.renderPage404();
+      return;
+    }
     const productObj = this.getProductById(id);
-    if (!productObj) return;
+    if (!productObj) {
+      this.renderPage404();
+      return;
+    }
     const main = document.querySelector('.main');
     if (!main) return;
     main.innerHTML = this.drawDetailsProduct(productObj);
+  }
+
+  renderPage404(): void {
+    window.app.page404.renderPage404();
   }
 
   getProductById(id: number): IProducts | null {

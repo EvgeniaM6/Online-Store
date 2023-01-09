@@ -9,6 +9,7 @@ import Filter from './filter/filter';
 import DualFilter from './dualFilter/dualSlider';
 import BasketPage from './basketPage/basketPage';
 import Details from './detailsProduct/detailsProdact';
+import Page404 from './page404/page404';
 
 export default class App {
   header: Header;
@@ -22,6 +23,7 @@ export default class App {
   dualFilter: DualFilter;
   basketPage: BasketPage;
   details: Details;
+  page404: Page404;
 
   constructor() {
     this.header = new Header();
@@ -35,6 +37,7 @@ export default class App {
     this.dualFilter = new DualFilter();
     this.basketPage = new BasketPage();
     this.details = new Details();
+    this.page404 = new Page404();
   }
 
   start(): void {
