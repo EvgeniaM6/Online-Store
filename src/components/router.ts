@@ -13,6 +13,7 @@ export default class Router {
       this.changeHref(Routes.Main);
       return;
     }
+    this.saveHref();
     const urlObj: IUrl = this.getRoute();
     this.renderRoute(urlObj);
   }
@@ -182,5 +183,14 @@ export default class Router {
     }
     location.href = newHref;
     this.updateCurrentUrl();
+  }
+
+  saveHref(): void {
+    localStorage.setItem('href', location.href);
+  }
+
+  restore(): void {
+    const href = localStorage.getItem('href');
+    location.href = href ? href : location.origin;
   }
 }
