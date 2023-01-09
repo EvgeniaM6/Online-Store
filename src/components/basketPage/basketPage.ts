@@ -1,7 +1,12 @@
 import './basketPage.scss';
 import { IProducts } from '../../models/types';
 import { arrProductsInCart } from '../../data/testData'; //test data
+import ModalPayment from '../modalPayment/modalPayment';
 
+const promoCodes: [string, number][] = [
+  ['test', 10],
+  ['RS', 25],
+];
 export default class BasketPage {
   drawBasketPage(): void {
     const main = document.querySelector('.main') as HTMLElement;
@@ -20,17 +25,23 @@ export default class BasketPage {
     if (basketPageItems) {
       basketPageItems.addEventListener('click', (e) => {
         const currBtn = e.target as HTMLElement;
+        const currBasketPageItem = currBtn.closest('.basket-page__item');
 
-        const parentCurrBtn = currBtn.parentElement as HTMLElement;
-        const countCurrProducts = parentCurrBtn.querySelector('.basket-product-info__amount.amount-of') as HTMLElement;
+        const stockCurrProducts = currBasketPageItem?.querySelector('.basket-product-info__stock') as HTMLElement;
+        const valStockCurrProducts = Number(stockCurrProducts.textContent?.trim().slice(7));
+
+        const countCurrProducts = currBasketPageItem?.querySelector('.basket-product-info__amount') as HTMLElement;
         let currCount = Number(countCurrProducts.textContent);
-        const currAmountSum = parentCurrBtn.nextElementSibling as HTMLElement;
-        const currPriceElem = parentCurrBtn.previousElementSibling as HTMLElement;
-        const currPrice = Number(currPriceElem.textContent?.slice(7, -2).trim());
+
+        const currAmountSum = currBasketPageItem?.querySelector('.basket-product-info__amount-sum') as HTMLElement;
+        const currPriceElem = currBasketPageItem?.querySelector('.basket-product-info__price') as HTMLElement;
+        const currPrice = Number(currPriceElem.textContent?.trim().slice(7, -2));
 
         if (currBtn.id === 'add-product-btn') {
-          currCount++;
-          countCurrProducts.textContent = `${currCount}`;
+          if (currCount < valStockCurrProducts) {
+            currCount++;
+            countCurrProducts.textContent = `${currCount}`;
+          }
         }
 
         if (currBtn.id === 'remove-product-btn') {
@@ -42,13 +53,13 @@ export default class BasketPage {
 
         //update data
         currAmountSum.textContent = `Total: ${currPrice * currCount} $`;
-
-        //обновить данные о количестве в arrТоваров в вкорзины
         if (currCount === 0) {
-          //удалить товар из arrТоваров корзины
-          //удалить товар из списка видимых товаров
-          //обновить порядковый номер товара в списке
+          currBasketPageItem?.remove();
+          //TODO: удалить товар из arrТоваров корзины
+          //TODO: обновить порядковый номер товара в списке
         }
+        //TODO: обновить данные о кол-ве товаров и цены в arrТоваров в Header
+        //TODO: обновить данные о кол-ве товаров и цены в arrТоваров в Summary
       });
     }
   }
@@ -124,11 +135,11 @@ export default class BasketPage {
                 <div class="promo-code__applied hide">
                   <h3 class="promo-code__applied-title">Apply promo code</h3>
                   <div class="promo-code__row">
-                    <div class="promo-code__applied-text">"test" -10%</div>
+                    <div class="promo-code__applied-text">test -10%</div>
                     <button class="promo-code__applied-btn btn btn--mini">Apply</button>
                   </div>
                 </div>
-                <div class="promo-code__test-promo-code">Promo for test: "test"</div>
+                <div class="promo-code__test-promo-code">Promo for test: "test", "RS"</div>
               </div>
               <button class="basket-summary__btn buy-now-btn btn btn--col-3 btn--big" id="basket-page__buy-now-btn">Buy
                 now</button>
