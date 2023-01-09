@@ -67,7 +67,7 @@ export default class ModalPayment {
   maskCardNumber() {
     if (this.value) {
       let val = this.value.replace(/[^0-9]/g, '');
-      val = val !== '' ? val.match(/.{1,4}/g)!.join(' ') : '';
+      val = val !== '' ? val.match(/.{1,4}/g)?.join(' ') || '' : '';
       this.value = val;
     }
   }
