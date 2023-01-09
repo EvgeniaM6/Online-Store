@@ -98,11 +98,10 @@ export default class BasketPage {
     let isPlus = false;
 
     if (currBtn.id === 'add-product-btn') {
-      if (currCount < valStockCurrProducts) {
-        currCount += 1;
-        countCurrProducts.textContent = `${currCount}`;
-        isPlus = true;
-      }
+      if (currCount === valStockCurrProducts) return;
+      currCount += 1;
+      countCurrProducts.textContent = `${currCount}`;
+      isPlus = true;
     } else if (currBtn.id === 'remove-product-btn') {
       if (currCount > 1) {
         currCount--;
@@ -110,18 +109,14 @@ export default class BasketPage {
       } else {
         const currBasketPageItem = this.productsItemNumElem[`${id}_block`] as HTMLElement;
         currBasketPageItem?.remove();
-        //TODO: обновить порядковый номер товара в списке
         this.updateNumsProductsByOrder();
       }
     }
-    //TODO: удалить товар из arrТоваров корзины
     this.changeProductInBasket(id, isPlus);
 
     //update data
     currAmountSum.textContent = `Total: ${price * currCount} €`;
-    //TODO: обновить данные о кол-ве товаров и цены в arrТоваров в Header
     this.updateHeader();
-    //TODO: обновить данные о кол-ве товаров и цены в arrТоваров в Summary
     this.summaryData();
   }
 
