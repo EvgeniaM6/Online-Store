@@ -20,7 +20,7 @@ export default class DataBase {
   }
 
   getProductsByParams(queryParams?: URLSearchParams): Array<IProducts> {
-    if (!queryParams) return [];
+    if (!queryParams) return this.getAllProducts();
     let data: Array<IProducts> = [...this.data];
     Object.values(Filters).forEach((filterType) => {
       data = this.filterProductsByParam(data, filterType, queryParams);
@@ -34,17 +34,23 @@ export default class DataBase {
     queryParams: URLSearchParams
   ): Array<IProducts> {
     let filteredData = [...data];
-    const paramValues = queryParams.get(paramType);
-    if (filteredData.length && paramValues) {
+    const paramValues = queryParams.get(paramType) || '';
+    if (filteredData.length && paramValues && paramType !== Filters.View) {
       if (paramType === Filters.Sort) {
         if ((Object.values(SortDirections) as string[]).includes(paramValues)) {
           this.sortDataBy(filteredData, paramValues);
         }
       } else if (paramType === Filters.Search) {
         filteredData = filteredData.filter((productObj: IProducts) => {
-          return productObj.description.toLocaleLowerCase().includes(paramValues);
+          return Object.keys(productObj).some((key) => {
+            if (key === 'id' || key === 'thumbnail' || key === 'images') {
+              return false;
+            } else {
+              return `${productObj[key as keyof IProducts]}`.toLowerCase().includes(paramValues);
+            }
+          });
         });
-      } else if (paramType.slice(0, 3) !== 'ds:') {
+      } else if (paramType.slice(0, 3) !== 'ds_') {
         const paramValuesArr: Array<string> = paramValues.split('*');
         filteredData = filteredData.filter((productObj: IProducts) => {
           return paramValuesArr.some(
@@ -54,8 +60,8 @@ export default class DataBase {
       } else {
         const [paramValueMin, paramValueMax]: Array<string> = paramValues.split('*');
         filteredData = filteredData.filter((productObj: IProducts) => {
-          const isMoreThanMin = productObj[paramType as keyof IProducts] > +paramValueMin;
-          const isLessThanMax = productObj[paramType as keyof IProducts] < +paramValueMax;
+          const isMoreThanMin = productObj[paramType.slice(3) as keyof IProducts] > +paramValueMin;
+          const isLessThanMax = productObj[paramType.slice(3) as keyof IProducts] < +paramValueMax;
           return isMoreThanMin && isLessThanMax;
         });
       }
@@ -114,5 +120,73 @@ export default class DataBase {
     } else {
       this.deleteProductFromBasket(id);
     }
+  }
+
+  checkProductInBasket(obj: IProducts): boolean {
+    return this.basket.some((basketProduct) => basketProduct.product === obj);
+  }
+
+  countBasketTotal(): number {
+    return this.basket.reduce((acc, basketProduct) => {
+      acc += basketProduct.amount * basketProduct.product.price;
+      return acc;
+    }, 0);
+  }
+
+  countProductsInBasket(): number {
+    return this.basket.reduce((acc, basketProduct) => {
+      acc += basketProduct.amount;
+      return acc;
+    }, 0);
+  }
+
+  getFiltersList(filterType: string): Array<string> {
+    const values: Array<string> = [];
+    this.data.forEach((productObj) => {
+      const key = productObj[filterType as keyof IProducts] as string;
+      const hasValue = values.some((value) => value.toLowerCase() === key.toLowerCase());
+      if (!hasValue) {
+        values.push(key);
+      }
+    });
+    return values;
+  }
+
+  countProductsByParam(filterType: string, filterValue: string): number {
+    const arr = this.data.filter((productObj) => {
+      return (productObj[filterType as keyof IProducts] as string).toLowerCase() === filterValue.toLowerCase();
+    });
+    return arr.length;
+  }
+
+  getMinMaxParam(sliderType: string, data: Array<IProducts> = this.data): Array<number> {
+    const minValue = data.reduce((acc, obj, i) => {
+      const value = +obj[sliderType as keyof IProducts];
+      if (!i) {
+        acc = value;
+      } else {
+        acc = Math.min(acc, value);
+      }
+      return acc;
+    }, 0);
+    const maxValue = data.reduce((acc, obj, i) => {
+      const value = +obj[sliderType as keyof IProducts];
+      if (!i) {
+        acc = value;
+      } else {
+        acc = Math.max(acc, value);
+      }
+      return acc;
+    }, 0);
+    const arrMinMax = [minValue, maxValue];
+    return arrMinMax;
+  }
+
+  getBasket(): Array<IBasketProduct> {
+    return this.basket;
+  }
+
+  clearBasket(): void {
+    this.basket = [];
   }
 }

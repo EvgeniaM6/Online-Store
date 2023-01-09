@@ -1,6 +1,6 @@
 export function createElem(
   tagName: string | HTMLElement,
-  clasName?: string,
+  clasName?: string | null,
   parent: string | HTMLElement | null = null,
   txtContent?: string
 ): HTMLElement {

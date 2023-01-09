@@ -1,11 +1,7 @@
 @import '../../sass/constants.scss';
 
 .header {
-  &__container {
-    background-color: $dark-color;
-    border-bottom: 2px solid $logo-color;
-    border-radius: 0 0 1.5rem 1.5rem;
-  }
+  background-color: $accent2-color;
 
   &__block {
     display: flex;
@@ -16,12 +12,12 @@
     .logo {
       display: flex;
       align-items: center;
-      color: $logo-color;
+      color: $accent4-color;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
 
       &:hover {
-        color: $logo-color-hover;
+        color: $accent1-color;
       }
 
       &__image {
@@ -29,7 +25,7 @@
         height: 50px;
         margin-right: 10px;
         // background: url();
-        background: $logo-color-hover;
+        background: $accent4-color;
       }
     }
 
@@ -39,16 +35,17 @@
 
       .total {
         margin-right: 10px;
-        color: $gray-light-color;
+        color: $light-text-color;
         min-width: 200px;
 
         &__text {
-          color: $logo-color;
+          color: $text-color;
           margin-right: 5px;
         }
       }
 
       .basket {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -56,9 +53,6 @@
         height: 70px;
 
         &__container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
           width: 90%;
           height: 90%;
           background: url('../../assets/png/basket.png');
@@ -76,15 +70,18 @@
         }
 
         &__num-block {
+          position: absolute;
+          right: -10px;
+          bottom: -10px;
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 30px;
-          height: 30px;
+          width: 45px;
+          height: 45px;
           border-radius: 50%;
-          color: $gray-light-color;
-          background: $text-color;
-          border: 1px solid $logo-color;
+          color: $text-color;
+          background: $accent5-color;
+          border: 4px solid $accent4-color;
         }
       }
     }
