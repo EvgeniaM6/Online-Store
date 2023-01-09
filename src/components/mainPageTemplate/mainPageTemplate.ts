@@ -106,15 +106,10 @@ export default class MainPageTemplate {
   updateOptions(sortValue: string) {
     if (!this.selectElem) return;
     const optionsCollection = this.selectElem.options;
-    if (!sortValue) {
-      this.selectElem.options[0].defaultSelected = true;
-      this.selectElem.options[0].selected = true;
-    } else {
-      Array.from(optionsCollection).forEach((option) => {
-        option.defaultSelected = option.value === sortValue;
-        option.selected = option.value === sortValue;
-      });
-    }
+    Array.from(optionsCollection).forEach((option, index) => {
+      option.defaultSelected = !index ? !sortValue : option.value === sortValue;
+      option.selected = !index ? !sortValue : option.value === sortValue;
+    });
   }
 
   changeSorting(event: Event): void {
@@ -217,7 +212,7 @@ export default class MainPageTemplate {
   }
 
   updateMainPage(queryParams?: URLSearchParams): void {
-    const sortValue = queryParams?.get(Filters.Search) || '';
+    const sortValue = queryParams?.get(Filters.Sort) || '';
     const viewValue = queryParams?.get(Filters.View) || '';
     const viewValueNum = viewValue ? +viewValue.slice(-1) - 1 : 0;
     const searchValue = queryParams?.get(Filters.Search) || '';
