@@ -60,8 +60,8 @@ export default class DataBase {
       } else {
         const [paramValueMin, paramValueMax]: Array<string> = paramValues.split('*');
         filteredData = filteredData.filter((productObj: IProducts) => {
-          const isMoreThanMin = productObj[paramType.slice(3) as keyof IProducts] > +paramValueMin;
-          const isLessThanMax = productObj[paramType.slice(3) as keyof IProducts] < +paramValueMax;
+          const isMoreThanMin = productObj[paramType.slice(3) as keyof IProducts] >= +paramValueMin;
+          const isLessThanMax = productObj[paramType.slice(3) as keyof IProducts] <= +paramValueMax;
           return isMoreThanMin && isLessThanMax;
         });
       }

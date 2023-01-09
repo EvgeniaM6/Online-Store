@@ -169,7 +169,6 @@ export default class Router {
   }
 
   changeHrefBySlider(sliderType: string, from: number, to: number) {
-    console.log('changeHrefBySlider!', 'sliderType=', sliderType, 'from=', from, 'to=', to);
     const currentUrl = this.getRoute();
     const queryParamsObj = currentUrl.queries;
     let newHref;
