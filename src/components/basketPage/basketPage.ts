@@ -18,30 +18,36 @@ export default class BasketPage {
     this.productsItemNumElem = {};
     const basketPageItems = document.querySelector('.basket-page__items') as HTMLElement;
 
-    basket.forEach((basketProduct, index) => {
-      const id = basketProduct.product.id;
-      const price = basketProduct.product.price;
-      const basketItemBlock = createElem('div', 'basket-page__item');
-      basketItemBlock.innerHTML = this.basketPageItemTemplate(basketProduct.product, index, basketProduct.amount);
-      const keyBlock = `${id}_block`;
-      this.productsItemNumElem[keyBlock] = basketItemBlock;
+    basketPageItems.innerHTML = '';
+    if (!basket.length) {
+      createElem('div', 'empty-basket', basketPageItems, 'Card is empty');
+    } else {
+      basket.forEach((basketProduct, index) => {
+        const id = basketProduct.product.id;
+        const price = basketProduct.product.price;
+        const basketItemBlock = createElem('div', 'basket-page__item');
+        basketItemBlock.innerHTML = this.basketPageItemTemplate(basketProduct.product, index, basketProduct.amount);
+        const keyBlock = `${id}_block`;
+        this.productsItemNumElem[keyBlock] = basketItemBlock;
 
-      const productAmountElem = basketItemBlock.querySelector('.basket-product-info__amount') as HTMLElement;
-      const keyAmountElem = `${id}_amount`;
-      this.productsItemNumElem[keyAmountElem] = productAmountElem;
+        const productAmountElem = basketItemBlock.querySelector('.basket-product-info__amount') as HTMLElement;
+        const keyAmountElem = `${id}_amount`;
+        this.productsItemNumElem[keyAmountElem] = productAmountElem;
 
-      const removeBtn = basketItemBlock.querySelector('#remove-product-btn') as HTMLButtonElement;
-      const addBtn = basketItemBlock.querySelector('#add-product-btn') as HTMLButtonElement;
+        const removeBtn = basketItemBlock.querySelector('#remove-product-btn') as HTMLButtonElement;
+        const addBtn = basketItemBlock.querySelector('#add-product-btn') as HTMLButtonElement;
 
-      removeBtn.addEventListener('click', (e) => this.addOrRemoveProduct(e, id, price));
-      addBtn.addEventListener('click', (e) => this.addOrRemoveProduct(e, id, price));
+        removeBtn.addEventListener('click', (e) => this.addOrRemoveProduct(e, id, price));
+        addBtn.addEventListener('click', (e) => this.addOrRemoveProduct(e, id, price));
 
-      const currAmountSum = basketItemBlock.querySelector('.basket-product-info__amount-sum') as HTMLElement;
-      const keyTotal = `${id}_total`;
-      this.productsItemNumElem[keyTotal] = currAmountSum;
+        const currAmountSum = basketItemBlock.querySelector('.basket-product-info__amount-sum') as HTMLElement;
+        const keyTotal = `${id}_total`;
+        this.productsItemNumElem[keyTotal] = currAmountSum;
 
-      basketPageItems.append(basketItemBlock);
-    });
+        basketPageItems.append(basketItemBlock);
+      });
+    }
+
     this.summaryData();
 
     // ==========
@@ -109,6 +115,7 @@ export default class BasketPage {
       } else {
         const currBasketPageItem = this.productsItemNumElem[`${id}_block`] as HTMLElement;
         currBasketPageItem?.remove();
+        this.checkItemsContainer();
         this.updateNumsProductsByOrder();
       }
     }
@@ -118,6 +125,16 @@ export default class BasketPage {
     currAmountSum.textContent = `Total: ${price * currCount} €`;
     this.updateHeader();
     this.summaryData();
+  }
+
+  checkItemsContainer(): void {
+    const basketPageItems = document.querySelector('.basket-page__items') as HTMLElement;
+    if (basketPageItems) {
+      const innHtml = basketPageItems.innerHTML;
+      if (!innHtml) {
+        createElem('div', 'empty-basket', basketPageItems, 'Card is empty');
+      }
+    }
   }
 
   getProductStockById(id: number): number {
