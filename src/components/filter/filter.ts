@@ -90,12 +90,15 @@ export default class Filter {
     Object.keys(this.filtersElems).forEach((key) => {
       const [filterType, filterValue, elem] = key.split('_');
       const changedFilterValue = filterValue.replace(/\*/g, ' ');
-      const numberFilteredProducts = this.countFilteredProductsByParam(filterType, changedFilterValue);
       if (elem === 'span') {
+        const numberFilteredProducts = this.countFilteredProductsByParam(filterType, changedFilterValue);
         this.filtersElems[key].textContent = `${numberFilteredProducts}`;
       } else if (elem === 'input') {
         const queryParam = this.getQueryParam(filterType);
-        (this.filtersElems[key] as HTMLInputElement).checked = queryParam === changedFilterValue;
+        const queryParamArr = queryParam?.split('*');
+        (this.filtersElems[key] as HTMLInputElement).checked = queryParamArr?.length
+          ? queryParamArr?.some((queryPar) => queryPar === changedFilterValue)
+          : false;
       }
     });
   }
