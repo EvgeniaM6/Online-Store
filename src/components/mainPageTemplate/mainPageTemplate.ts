@@ -213,34 +213,27 @@ export default class MainPageTemplate {
     createElem('div', 'unfound', this.cardsContainer, text);
   }
 
-  updateDualSlider(): void {
-    window.app.dualFilter.updateDualSlider();
+  updateDualSlider(data: Array<IProducts>): void {
+    window.app.dualFilter.updateDualSlider(data);
   }
 
   updateMainPage(queryParams?: URLSearchParams): void {
-    let sortValue = '';
-    let viewValue = '';
-    let viewValueNum = 0;
-    let searchValue;
-    if (queryParams) {
-      searchValue = queryParams.get(Filters.Search);
-      sortValue = queryParams.get(Filters.Sort) || '';
-      viewValue = queryParams.get(Filters.View) || '';
-      viewValueNum = viewValue ? +viewValue.slice(-1) - 1 : 0;
-    }
+    const sortValue = queryParams?.get(Filters.Search) || '';
+    const viewValue = queryParams?.get(Filters.View) || '';
+    const viewValueNum = viewValue ? +viewValue.slice(-1) - 1 : 0;
+    const searchValue = queryParams?.get(Filters.Search) || '';
     if (this.searchInputElem) {
-      this.searchInputElem.value = searchValue || '';
+      this.searchInputElem.value = searchValue;
       if (searchValue) {
         this.searchInputElem.focus();
       }
     }
-    console.log('queryParams=', queryParams?.toString());
     const data = window.app.dataBase.getProductsByParams(queryParams);
     this.updateFoundProductsNumber(data.length);
     window.app.filter.updateNumberFilters(data);
     this.renderProductCards(data, viewValue);
     this.changeClassOnViewBtn(viewValueNum);
     this.updateOptions(sortValue);
-    this.updateDualSlider();
+    this.updateDualSlider(data);
   }
 }
