@@ -62,6 +62,20 @@ export default class BasketPage {
         //TODO: обновить данные о кол-ве товаров и цены в arrТоваров в Summary
       });
     }
+
+    //Summary block
+    const summaryBasketPage = document.querySelector('.basket-page__summary') as HTMLElement;
+
+    if (summaryBasketPage) {
+      summaryBasketPage.addEventListener('click', (e) => {
+        const currSummaryBtn = e.target as HTMLElement;
+
+        if (currSummaryBtn.id === 'basket-page__buy-now-btn') {
+          const modalPayment = new ModalPayment();
+          modalPayment.drawModalPayment();
+        }
+      });
+    }
   }
 
   basketPageItemTemplate(obj: IProducts, index: number): string {
