@@ -19,6 +19,7 @@ export default class BasketPage {
     });
     const basketPageItems = document.querySelector('.basket-page__items') as HTMLElement;
     basketPageItems.innerHTML = basketItems;
+    this.summaryData();
 
     // ==========
     //add-remove countProduct(item) in cart, update for product amountSum
@@ -60,6 +61,7 @@ export default class BasketPage {
         }
         //TODO: обновить данные о кол-ве товаров и цены в arrТоваров в Header
         //TODO: обновить данные о кол-ве товаров и цены в arrТоваров в Summary
+        this.summaryData();
       });
     }
 
@@ -76,6 +78,28 @@ export default class BasketPage {
         }
       });
     }
+  }
+
+  summaryData() {
+    const summaryBasketPage = document.querySelector('.basket-page__summary') as HTMLElement;
+    const productsCount = summaryBasketPage.querySelector('.basket-summary__products-count') as HTMLElement;
+    const productsAmountStart = summaryBasketPage.querySelector('#products-amount-start') as HTMLElement;
+
+    const arrAmount = document.querySelectorAll<HTMLElement>('.basket-product-info__amount');
+    let sumProducts = 0;
+    [...arrAmount].map((el) => {
+      const val = Number(el.textContent?.trim());
+      sumProducts += val;
+    });
+    productsCount.textContent = `Products: ${sumProducts}`;
+
+    const arrAmountSum = document.querySelectorAll<HTMLElement>('.basket-product-info__amount-sum');
+    let sumTotalAmountSum = 0;
+    [...arrAmountSum].map((el) => {
+      const val = Number(el.textContent?.trim().slice(7, -2));
+      sumTotalAmountSum += val;
+    });
+    productsAmountStart.textContent = `Total: ${sumTotalAmountSum}$`;
   }
 
   basketPageItemTemplate(obj: IProducts, index: number): string {
