@@ -7,6 +7,7 @@ import MainPageTemplate from './mainPageTemplate/mainPageTemplate';
 import ProductCard from './productCard/productCard';
 import Filter from './filter/filter';
 import DualFilter from './dualFilter/dualSlider';
+import BasketPage from './basketPage/basketPage';
 
 export default class App {
   header: Header;
@@ -18,6 +19,7 @@ export default class App {
   productCard: ProductCard;
   filter: Filter;
   dualFilter: DualFilter;
+  basketPage: BasketPage;
 
   constructor() {
     this.header = new Header();
@@ -29,6 +31,7 @@ export default class App {
     this.productCard = new ProductCard();
     this.filter = new Filter();
     this.dualFilter = new DualFilter();
+    this.basketPage = new BasketPage();
   }
 
   start(): void {
