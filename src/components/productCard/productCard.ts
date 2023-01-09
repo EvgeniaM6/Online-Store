@@ -1,4 +1,3 @@
-// import { CreateNode } from '../../utilities';
 import { CardsViews, IProducts, Routes } from '../../models';
 import { createElem } from '../../utilities';
 import './productCard.scss';
@@ -44,7 +43,6 @@ export default class ProductCard {
     window.app.header.updateData();
   }
 
-  //parent-block: ".products__cards"
   drawProductCard(obj: IProducts): string {
     return ` 
             <div class="card__img">

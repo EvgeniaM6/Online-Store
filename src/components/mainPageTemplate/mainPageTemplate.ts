@@ -9,6 +9,7 @@ export default class MainPageTemplate {
   selectElem: HTMLSelectElement | null = null;
   searchInputElem: HTMLInputElement | null = null;
   cardsContainer: HTMLElement | null = null;
+  data: Array<IProducts> = [];
 
   drawMainPageTemplate(queryParams?: URLSearchParams): void {
     const main = document.querySelector('.main') as HTMLElement;
@@ -33,13 +34,12 @@ export default class MainPageTemplate {
       viewValue = queryParams.get(Filters.View) || '';
     }
     this.searchInputElem.addEventListener('input', (e) => this.searchInput(e));
-    const data = window.app.dataBase.getProductsByParams(queryParams);
+    this.data = window.app.dataBase.getProductsByParams(queryParams);
     this.drawOptions(sortValue);
     this.createViewButtons(viewValue);
-    this.updateFoundProductsNumber(data.length);
-    this.renderProductCards(data, viewValue);
-    this.renderFilters(data);
-    this.renderDualFilter(data);
+    this.renderFilters(this.data);
+    this.renderDualFilter(this.data);
+    this.updateMainPage(queryParams);
   }
 
   renderProductCards(data: Array<IProducts>, viewValue: string): void {
@@ -140,7 +140,6 @@ export default class MainPageTemplate {
 
   changeView(i: number): void {
     this.changeHrefByView(i);
-    // this.changeClassOnViewBtn(i);
   }
 
   changeClassOnViewBtn(i: number): void {
@@ -228,12 +227,12 @@ export default class MainPageTemplate {
         this.searchInputElem.focus();
       }
     }
-    const data = window.app.dataBase.getProductsByParams(queryParams);
-    this.updateFoundProductsNumber(data.length);
-    window.app.filter.updateNumberFilters(data);
-    this.renderProductCards(data, viewValue);
+    this.data = window.app.dataBase.getProductsByParams(queryParams);
+    this.updateFoundProductsNumber(this.data.length);
+    window.app.filter.updateNumberFilters(this.data);
+    this.renderProductCards(this.data, viewValue);
     this.changeClassOnViewBtn(viewValueNum);
     this.updateOptions(sortValue);
-    this.updateDualSlider(data);
+    this.updateDualSlider(this.data);
   }
 }

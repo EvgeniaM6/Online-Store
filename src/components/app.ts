@@ -43,6 +43,7 @@ export default class App {
   start(): void {
     this.header.drawLayout();
     this.footer.drawFooter();
+    this.router.restore();
     this.router.checkHref();
   }
 }
