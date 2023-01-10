@@ -18,3 +18,13 @@ export type DataGoods = {
   skip: number;
   limit: number;
 };
+
+export type TPromo = {
+  [key: string]: IPromoValues;
+};
+
+interface IPromoValues {
+  percent: number;
+  isUsed: boolean;
+  description: string;
+}

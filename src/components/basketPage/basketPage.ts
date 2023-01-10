@@ -1,14 +1,22 @@
 import './basketPage.scss';
 import ModalPayment from '../modalPayment/modalPayment';
-import { IProducts, IBasketProduct, IFiltersElems } from '../../models';
+import { IProducts, IBasketProduct, IFiltersElems, TPromo } from '../../models';
 import { createElem } from '../../utilities';
 
-const promoCodes: [string, number][] = [
-  ['test', 10],
-  ['RS', 25],
-];
 export default class BasketPage {
   productsItemNumElem: IFiltersElems = {};
+  promoCodes: TPromo = {
+    test: {
+      percent: 10,
+      isUsed: false,
+      description: 'Promo test',
+    },
+    rs: {
+      percent: 25,
+      isUsed: false,
+      description: 'Rolling Scopes School',
+    },
+  };
 
   drawBasketPage(): void {
     const main = document.querySelector('.main') as HTMLElement;
@@ -63,10 +71,12 @@ export default class BasketPage {
         if (currSummaryBtn.id === 'basket-page__buy-now-btn') {
           const modalPayment = new ModalPayment();
           modalPayment.drawModalPayment();
-          console.log('promoCodes=', promoCodes);
         }
       });
     }
+
+    const inputPayment = document.querySelector('.input--payment') as HTMLInputElement;
+    inputPayment.addEventListener('input', (e) => this.checkPromo(e));
   }
 
   summaryData() {
@@ -125,6 +135,7 @@ export default class BasketPage {
     currAmountSum.textContent = `Total: ${price * currCount} €`;
     this.updateHeader();
     this.summaryData();
+    this.updateTotal();
   }
 
   checkItemsContainer(): void {
@@ -155,6 +166,76 @@ export default class BasketPage {
 
   updateHeader(): void {
     window.app.header.updateData();
+  }
+
+  checkPromo(e: Event): void {
+    const value = (e.target as HTMLInputElement).value.toLowerCase();
+    const isCorrectPromo = Object.keys(this.promoCodes).some((keyPromo) => {
+      return keyPromo.toLowerCase() === value && !this.promoCodes[keyPromo].isUsed;
+    });
+    if (!isCorrectPromo) return;
+    this.renderPromoBlock(value);
+  }
+
+  renderPromoBlock(promo: string): void {
+    const prodAmountPromo = document.querySelector('.promo-code__applied') as HTMLElement;
+    prodAmountPromo.classList.remove('hide');
+    createElem('h3', 'promo-code__applied-title', prodAmountPromo, 'Apply promo code');
+    const row = createElem('div', 'promo-code__row', prodAmountPromo);
+    const text = `${this.promoCodes[promo].description} -${this.promoCodes[promo].percent}%`;
+    createElem('div', 'promo-code__applied-text', row, text);
+    const btn = createElem('button', 'promo-code__applied-btn btn btn--mini', prodAmountPromo, 'Apply');
+    this.promoCodes[promo].isUsed = true;
+    btn.addEventListener('click', () => this.addPromo(prodAmountPromo, promo));
+  }
+
+  addPromo(prodAmountPromo: HTMLElement, promo: string): void {
+    const inputPromo = document.querySelector('#promo-code') as HTMLInputElement;
+    inputPromo.value = '';
+
+    prodAmountPromo.innerHTML = '';
+    prodAmountPromo.classList.add('hide');
+
+    const container = document.querySelector('.codes__container') as HTMLElement;
+    const code = createElem('div', 'code', container);
+    const codeText = `${this.promoCodes[promo].description} - ${this.promoCodes[promo].percent}%`;
+    createElem('span', 'code__span', code, codeText);
+    const codeBtn = createElem('button', 'code__btn btn', code, 'Drop');
+    codeBtn.addEventListener('click', () => this.dropPromo(code, promo));
+
+    this.updateTotal();
+  }
+
+  dropPromo(code: HTMLElement, promo: string): void {
+    this.promoCodes[promo].isUsed = false;
+    code.remove();
+    this.updateTotal();
+  }
+
+  updateTotal(): void {
+    const hasPromo = Object.keys(this.promoCodes).some((keyPromo) => {
+      return this.promoCodes[keyPromo].isUsed;
+    });
+    const promoAmount = document.querySelector('.promo-amount') as HTMLElement;
+    const appliedCodesEl = document.querySelector('.basket-summary__applied-codes') as HTMLElement;
+    const prodAmStart = document.querySelector('#products-amount-start') as HTMLElement;
+    if (hasPromo) {
+      promoAmount.classList.remove('hide');
+      appliedCodesEl.classList.remove('hide');
+      prodAmStart.classList.add('old');
+      let amount = window.app.dataBase.countBasketTotal();
+      promoAmount.innerHTML = `<span>Total: </span>${amount} €`;
+      Object.keys(this.promoCodes).forEach((keyPromo) => {
+        if (this.promoCodes[keyPromo].isUsed) {
+          amount = (amount * (100 - this.promoCodes[keyPromo].percent)) / 100;
+        }
+      });
+      promoAmount.innerHTML = `<span>Total: </span>${amount} €`;
+    } else {
+      promoAmount.classList.add('hide');
+      appliedCodesEl.classList.add('hide');
+      prodAmStart.classList.remove('old');
+    }
   }
 
   basketPageItemTemplate(obj: IProducts, index: number, amount: number): string {
@@ -216,19 +297,22 @@ export default class BasketPage {
               <div class="basket-summary__amount-row">
                 <div class="basket-summary__products-amount" id="products-amount-start"><span>Total: </span>2500.00 €
                 </div>
-                <div class="basket-summary__products-amount promo-amount hide" id="products-amount-promo"><span>Total:
-                  </span>2250.00 €</div>
+                <div class="basket-summary__products-amount promo-amount hide" id="products-amount-promo">
+                  <span>
+                    Total:
+                  </span>
+                  2250.00 €
+                </div>
+              </div>
+              <div class="basket-summary__applied-codes codes hide">
+                <h3 class="codes__title">Applied codes</h3>
+                <div class="codes__container"></div>
               </div>
               <div class="basket-summary__promo-code promo-code">
                 <div class="promo-code__input">
                   <input class="input--payment" id="promo-code" type="search" placeholder="enter promo code">
                 </div>
                 <div class="promo-code__applied hide">
-                  <h3 class="promo-code__applied-title">Apply promo code</h3>
-                  <div class="promo-code__row">
-                    <div class="promo-code__applied-text">test -10%</div>
-                    <button class="promo-code__applied-btn btn btn--mini">Apply</button>
-                  </div>
                 </div>
                 <div class="promo-code__test-promo-code">Promo for test: "test", "RS"</div>
               </div>
