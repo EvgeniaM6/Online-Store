@@ -261,7 +261,7 @@ export default class BasketPage {
           <span class="basket-product-info__amount amount-of amount-of--dark-bg">${amount}</span>
           <button class="basket-product-info__btn btn btn--cart" id="add-product-btn"> + </button>
         </div>
-        <div class="basket-product-info__amount-sum"><span>Total: </span>${obj.price}&nbsp;€</div>
+        <div class="basket-product-info__amount-sum"><span>Total: </span>${obj.price * amount}&nbsp;€</div>
       </div>
     `;
   }
