@@ -211,6 +211,10 @@
   }
 
   &__products-amount {
+
+    &.old {
+      text-decoration: line-through;
+    }
   }
 
   &__promo-code {
@@ -272,4 +276,9 @@
     color: $light-color-1;
     text-align: center;
   }
+}
+
+.empty-basket {
+  display: flex;
+  justify-content: center;
 }

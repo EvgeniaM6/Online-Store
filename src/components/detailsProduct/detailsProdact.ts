@@ -1,7 +1,12 @@
-import { IProducts } from '../../models';
+import { IFiltersElems, IProducts } from '../../models';
+import { createElem } from '../../utilities';
+import ModalPayment from '../modalPayment/modalPayment';
 import './detailsProduct.scss';
 
 export default class Details {
+  btnAdd: HTMLButtonElement | null = null;
+  imagesElems: IFiltersElems = {};
+
   renderDetails(id?: number): void {
     if (!id) {
       this.renderPage404();
@@ -12,9 +17,48 @@ export default class Details {
       this.renderPage404();
       return;
     }
-    const main = document.querySelector('.main');
+
+    const main = document.querySelector('.main') as HTMLElement;
     if (!main) return;
     main.innerHTML = this.drawDetailsProduct(productObj);
+    this.drawImagesDetailsProduct(productObj, main);
+
+    const hasBasketProduct = window.app.dataBase.checkProductInBasket(productObj);
+    this.btnAdd = main.querySelector('.add-to-cart-btn') as HTMLButtonElement;
+    if (hasBasketProduct) {
+      this.btnAdd.classList.add('added');
+    }
+    this.btnAdd.textContent = hasBasketProduct ? 'Drop from Cart' : 'Add to Cart';
+    this.btnAdd.addEventListener('click', (e) => this.addProductToBasket(e.target as HTMLElement, productObj.id));
+    const btnBuy = main.querySelector('.buy-now-btn') as HTMLElement;
+    btnBuy.addEventListener('click', () => this.buyNow(productObj.id));
+  }
+
+  addProductToBasket(eTarget: HTMLElement, id: number): void {
+    const isProductAddedToBasket = eTarget?.classList.contains('added');
+    if (isProductAddedToBasket) {
+      window.app.dataBase.deleteProductFromBasket(id);
+      eTarget?.classList.remove('added');
+    } else {
+      window.app.dataBase.addProductToBasket(id);
+      eTarget?.classList.add('added');
+    }
+    const textBtn = isProductAddedToBasket ? 'Add to Cart' : 'Drop from Cart';
+    eTarget.textContent = textBtn;
+    window.app.header.updateData();
+  }
+
+  buyNow(id: number): void {
+    const productObj = this.getProductById(id);
+    if (!productObj) return;
+    const hasBasketProduct = window.app.dataBase.checkProductInBasket(productObj);
+    if (!hasBasketProduct) {
+      window.app.dataBase.addProductToBasket(id);
+      window.app.header.updateData();
+    }
+    window.app.basketPage.drawBasketPage();
+    const modalPayment = new ModalPayment();
+    modalPayment.drawModalPayment();
   }
 
   renderPage404(): void {
@@ -25,18 +69,32 @@ export default class Details {
     return window.app.dataBase.getProductById(id);
   }
 
-  drawImagesDetailsProduct(obj: IProducts) {
-    const arrImages: string[] = obj.images;
-    let listImages = '';
+  drawImagesDetailsProduct(obj: IProducts, main: HTMLElement): void {
+    const imagesBlock = main.querySelector('.product-details__images-mini') as HTMLElement;
 
-    arrImages.forEach((img, index) => {
-      if (index === 0) {
-        listImages += `<img class="active" src="${img}" alt="${obj.title}" />`;
+    obj.images.forEach((img, index) => {
+      const imgElem = createElem('img', null, imagesBlock) as HTMLImageElement;
+      imgElem.src = img;
+      imgElem.alt = obj.title;
+      if (!index) {
+        imgElem.classList.add('active');
+      }
+      imgElem.addEventListener('click', () => this.chooseImage(index));
+      this.imagesElems[index] = imgElem;
+    });
+  }
+
+  chooseImage(index: number): void {
+    const mainImg = document.querySelector('#main-img') as HTMLImageElement;
+    Object.keys(this.imagesElems).forEach((key) => {
+      const imgElem = this.imagesElems[key] as HTMLImageElement;
+      if (+key === index) {
+        imgElem.classList.add('active');
+        mainImg.src = imgElem.src;
       } else {
-        listImages += `<img src="${img}" alt="${obj.title}" />`;
+        imgElem.classList.remove('active');
       }
     });
-    return listImages;
   }
 
   drawDetailsProduct(obj: IProducts): string {
@@ -55,10 +113,10 @@ export default class Details {
                 <div class="product-details__data">
                   <div class="product-details__images">
                     <div class="product-details__images-mini">
-                      ${this.drawImagesDetailsProduct(obj)}
                     </div>
                     <div class="product-details__image">
                       <img
+                        id="main-img"
                         src="${obj.images[0]}"
                         width="340"
                         height="191"
@@ -96,7 +154,7 @@ export default class Details {
                   </div>
                   <div class="product-details__btns">
                     <div class="product-details__price">${obj.price} $</div>
-                    <button class="product-details__btn add-to-cart-btn btn">Add to Cart</button>
+                    <button class="product-details__btn add-to-cart-btn btn"></button>
                     <button class="product-details__btn  buy-now-btn btn btn--col-3">Buy now</button>
                   </div>
                 </div>
