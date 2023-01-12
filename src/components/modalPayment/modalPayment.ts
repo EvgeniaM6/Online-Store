@@ -26,23 +26,16 @@ export default class ModalPayment {
       e.preventDefault();
 
       const popupMessage = new CreateNode(document.body, 'div', 'popup popup-message', '');
-      popupMessage.node.innerHTML = this.modalInfoMessage('Заказ оформлен!');
+      popupMessage.node.innerHTML = this.modalInfoMessage('Your order has been confirmed!');
 
       setTimeout(() => {
         popupMessage.destroy();
         popup.destroy();
+        this.clearBasket();
+        this.clearBasketHeader();
         window.location.hash = '#main';
       }, 3000);
-      //TODO: очистить корзину
-      this.clearBasket();
     });
-
-    // const cardNumber = document.querySelector('#card-number') as HTMLInputElement;
-    // cardNumber.addEventListener('input', this.changeImgPaymentSistem);
-
-    // input.oninvalid = function (event) {
-    //   event.target.setCustomValidity('Username should only contain lowercase letters. e.g. john');
-    // };
 
     //input validation
     form?.addEventListener('input', (e) => {
@@ -100,6 +93,10 @@ export default class ModalPayment {
     window.app.dataBase.clearBasket();
   }
 
+  clearBasketHeader(): void {
+    window.app.header.updateData();
+  }
+
   modalPaymentTemplate(): string {
     return `
       <div class="popup__content">
@@ -142,7 +139,7 @@ export default class ModalPayment {
               type="email"
               placeholder="E-mail"
               required
-              pattern="\\w+@\\w+\\.\\w+"
+              pattern=".+@\\w+\\.\\w+"
             />
           </div>
           <div class="form__card-details">
