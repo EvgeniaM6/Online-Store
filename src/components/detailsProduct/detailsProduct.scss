@@ -97,18 +97,22 @@
     position: relative;
     margin: 0 34px 0 0;
   }
-  &__item.active {
+  &__item:first-child {
     font-weight: 500;
     color: $accent2-color;
+  }
+  &__item.active {
+    font-weight: 500;
+    color: $accent1-color;
   }
 
   &__item::after {
     content: "";
     position: absolute;
-    top: 0;
-    right: -29px;
-    width: 10px;
-    height: 10px;
+    top: 6px;
+    right: -25px;
+    width: 14px;
+    height: 14px;
     text-align: center;
     transform: rotate(90deg);
     background: url(../../assets/png/collapse-arrow-gray.png) no-repeat center;
@@ -123,7 +127,6 @@
   color: inherit;
 }
 .bread-crumbs a:hover {
-  font-weight: 500;
   color: $accent1-color;
 }
 

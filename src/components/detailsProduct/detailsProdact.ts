@@ -154,8 +154,8 @@ export default class Details {
                   </div>
                   <div class="product-details__btns">
                     <div class="product-details__price">${obj.price} $</div>
-                    <button class="product-details__btn add-to-cart-btn btn"></button>
-                    <button class="product-details__btn  buy-now-btn btn btn--col-3">Buy now</button>
+                    <button class="product-details__btn add-to-cart-btn btn btn--big"></button>
+                    <button class="product-details__btn  buy-now-btn btn btn--big btn--col-3">Buy now</button>
                   </div>
                 </div>
               </div>
