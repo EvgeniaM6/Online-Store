@@ -14,7 +14,7 @@ export default class MainPageTemplate {
   drawMainPageTemplate(queryParams?: URLSearchParams): void {
     const main = document.querySelector('.main') as HTMLElement;
     main.innerHTML = '';
-    const mainPageTemplate = new CreateNode(main, 'div', 'products container', '');
+    const mainPageTemplate = new CreateNode(main, 'div', 'products', '');
     mainPageTemplate.node.innerHTML = this.mainTemplate();
     this.numberElem = document.querySelector('#found-products-num');
     const resetBtn = mainPageTemplate.node.querySelector('.reset-btn') as HTMLElement;
