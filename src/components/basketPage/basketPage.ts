@@ -9,12 +9,12 @@ export default class BasketPage {
     test: {
       percent: 10,
       isUsed: false,
-      description: 'Promo test',
+      description: 'test',
     },
     rs: {
       percent: 25,
       isUsed: false,
-      description: 'Rolling Scopes School',
+      description: 'RS',
     },
   };
 
@@ -28,7 +28,7 @@ export default class BasketPage {
 
     basketPageItems.innerHTML = '';
     if (!basket.length) {
-      createElem('div', 'empty-basket', basketPageItems, 'Card is empty');
+      createElem('div', 'empty-basket', basketPageItems, 'Cart is empty');
     } else {
       basket.forEach((basketProduct, index) => {
         const id = basketProduct.product.id;
@@ -143,7 +143,7 @@ export default class BasketPage {
     if (basketPageItems) {
       const innHtml = basketPageItems.innerHTML;
       if (!innHtml) {
-        createElem('div', 'empty-basket', basketPageItems, 'Card is empty');
+        createElem('div', 'empty-basket', basketPageItems, 'Cart is empty');
       }
     }
   }
@@ -184,7 +184,7 @@ export default class BasketPage {
     const row = createElem('div', 'promo-code__row', prodAmountPromo);
     const text = `${this.promoCodes[promo].description} -${this.promoCodes[promo].percent}%`;
     createElem('div', 'promo-code__applied-text', row, text);
-    const btn = createElem('button', 'promo-code__applied-btn btn btn--mini', prodAmountPromo, 'Apply');
+    const btn = createElem('button', 'promo-code__applied-btn btn btn--mini', row, 'Apply');
     this.promoCodes[promo].isUsed = true;
     btn.addEventListener('click', () => this.addPromo(prodAmountPromo, promo));
   }
@@ -197,10 +197,10 @@ export default class BasketPage {
     prodAmountPromo.classList.add('hide');
 
     const container = document.querySelector('.codes__container') as HTMLElement;
-    const code = createElem('div', 'code', container);
+    const code = createElem('div', 'promo-code__row', container);
     const codeText = `${this.promoCodes[promo].description} - ${this.promoCodes[promo].percent}%`;
-    createElem('span', 'code__span', code, codeText);
-    const codeBtn = createElem('button', 'code__btn btn', code, 'Drop');
+    createElem('span', 'promo-code__applied-text', code, codeText);
+    const codeBtn = createElem('button', 'promo-code__applied-btn btn btn--mini', code, 'Drop');
     codeBtn.addEventListener('click', () => this.dropPromo(code, promo));
 
     this.updateTotal();
