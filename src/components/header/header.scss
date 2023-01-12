@@ -14,18 +14,35 @@
       align-items: center;
       color: $accent4-color;
       cursor: pointer;
-      transition: all 0.3s ease-in-out;
-
-      &:hover {
-        color: $accent1-color;
-      }
+      transition: 0.3s;
 
       &__image {
         width: 50px;
         height: 50px;
         margin-right: 10px;
+        border-radius: 50%;
         // background: url();
+        background: $accent5-color;
+        color: $accent1-color;
+        font-size: 22px;
+        line-height: 50px;
+        font-weight: 500;
+        text-align: center;
+        transition: 0.3s;
+      }
+
+      &__image:hover {
         background: $accent4-color;
+        color: $light-color-1;
+      }
+
+      &__title {
+        color: $light-color-1;
+        font-size: 24px;
+        font-weight: 400;
+      }
+      &__title span {
+        color: $accent5-color;
       }
     }
 
@@ -37,9 +54,10 @@
         margin-right: 10px;
         color: $light-text-color;
         min-width: 200px;
+        font-size: 18px;
 
         &__text {
-          color: $text-color;
+          color: $accent3-color;
           margin-right: 5px;
         }
       }
@@ -49,39 +67,44 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 70px;
-        height: 70px;
+        border-radius: 50%;
+        background-color: $light-text-color;
+        width: 50px;
+        height: 50px;
+        margin: 0 12px 0 0;
 
         &__container {
-          width: 90%;
-          height: 90%;
-          background: url('../../assets/png/basket.png');
-          background-repeat: no-repeat;
+          width: 30px;
+          height: 30px;
+          background-image: url('../../assets/png/shopping-cart/shopping-cart-green.png');
           background-size: cover;
-          background-position: center;
-          // background: $gray-color;
           cursor: pointer;
-          transition: all 0.3s ease-in-out;
+          transition: 0.3s;
+        }
 
-          &:hover {
-            width: 100%;
-            height: 100%;
-          }
+        &:hover .basket__container {
+          background-image: url('../../assets/png/shopping-cart/shopping-cart-purple.png');
         }
 
         &__num-block {
           position: absolute;
-          right: -10px;
-          bottom: -10px;
+          right: -12px;
+          top: -12px;
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 45px;
-          height: 45px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
-          color: $text-color;
+          color: $light-text-color;
+          background: $accent1-color;
+          transition: 0.3s;
+        }
+
+        &:hover .basket__num-block {
           background: $accent5-color;
-          border: 4px solid $accent4-color;
+          color: $text-color;
+          font-weight: 500;
         }
       }
     }
