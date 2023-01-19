@@ -129,7 +129,7 @@ export default class ModalPayment {
               type="text"
               placeholder="Delivery address"
               required
-              pattern="\\b\\w{5}\\w*\\b\\s\\b\\w{5}\\w*\\b\\s\\b\\w{5}\\w*\\b\\s*\\b\\w*\\b\\s*\\b\\w*\\b"
+              pattern="\\b[a-zA-Z]{5}[a-zA-Z]*\\b\\s\\b[a-zA-Z]{5}[a-zA-Z]*\\b\\s\\b[a-zA-Z]{5}[a-zA-Z]*\\b\\s*\\b[a-zA-Z]*\\b\\s*\\b[a-zA-Z]*\\b"
               maxlength="50"
               title="enter min 3 to 5 words by latin"
             />
@@ -169,7 +169,7 @@ export default class ModalPayment {
                     name="valid-thru"
                     placeholder="10/23"
                     required
-                    pattern="[0-1][0-2][\\/]\\d{2}"
+                    pattern="[0-1][0-9][\\/]\\d{2}"
                     maxlength="5"
                   />
                 </div>
