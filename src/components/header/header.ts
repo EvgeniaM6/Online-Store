@@ -17,8 +17,9 @@ export default class Header {
     const headerEl: HTMLElement = createElem('div', 'header__block', headerContainer);
 
     const logoBlock: HTMLElement = createElem('div', 'logo', headerEl);
-    createElem('div', 'logo__image', logoBlock);
-    createElem('h1', 'logo__title', logoBlock, 'Online Store');
+    createElem('div', 'logo__image', logoBlock, 'OS');
+    const logoTitle = createElem('h1', 'logo__title', logoBlock);
+    logoTitle.innerHTML = '<span>O</span>nline <span>S</span>tore';
     logoBlock.addEventListener('click', () => this.buildPage(Routes.Main));
 
     const clientBlock: HTMLElement = createElem('div', 'client', headerEl);
