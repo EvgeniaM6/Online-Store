@@ -1,0 +1,228 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
+  color: $text-color;
+  background-color: $light-color-1;
+}
+
+a {
+  transition: 0.3s;
+}
+
+a:hover,
+a:active {
+  color: $accent3-color;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.main {
+  flex: 1 1 auto;
+  padding: 0 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hide {
+  display: none;
+}
+
+.btn {
+  border-radius: 5px;
+  padding: 5px 10px;
+  min-width: 100px;
+  background-color: $accent2-color;
+  color: $light-text-color;
+  min-height: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn--cart {
+  min-width: auto;
+  width: 30px;
+  min-height: 21px;
+  line-height: 1;
+  font-size: 10px;
+}
+
+.btn--big {
+  width: 100%;
+}
+
+.btn--mini {
+  min-width: auto;
+}
+
+.btn--col-3 {
+  background-color: $accent3-color;
+  color: $text-color;
+  font-weight: 700;
+}
+.btn--col-5 {
+  background-color: $accent5-color;
+  color: $text-color;
+}
+
+.btn:hover,
+.btn:focus,
+.btn--col-5:hover {
+  background-color: $accent1-color;
+  color: $light-text-color;
+}
+
+.amount-of {
+  display: inline-block;
+  width: 45px;
+  text-align: center;
+  border-radius: 5px;
+
+  height: 21px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 2px 5px;
+  color: $accent1-color;
+  background-color: $light-color-1;
+  cursor: pointer;
+}
+.amount-of--dark-bg {
+  background-color: $light-color-2;
+}
+// scrollbar in overflow-y
+::-webkit-scrollbar-track {
+  background: $gray-light-color;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $accent1-color;
+  border-radius: 10px;
+  border: 2px solid $gray-light-color;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+input,
+select {
+  height: 21px;
+  background-color: $light-color-1;
+  color: $accent1-color;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+input[type='range'] {
+  padding: 0;
+}
+
+input:checked {
+  accent-color: $accent1-color;
+  color: $accent1-color;
+}
+
+input:focus,
+input:focus:valid {
+  outline: 2px solid $accent1-color;
+}
+
+input::placeholder {
+  font-weight: 500;
+  color: $gray-color;
+}
+
+//delete value from placeholder when focused
+input:focus::placeholder {
+  color: transparent;
+}
+
+input:invalid:required {
+  border: 1px solid $error-color;
+}
+
+input:valid:required {
+  outline: 1px solid $accent2-color;
+}
+
+input[type='checkbox'],
+input[type='checkbox']:focus:valid,
+input[type='range']:focus,
+input[type='range']:focus:valid {
+  outline: none;
+}
+
+input:focus:invalid {
+  border: none;
+}
+
+.input--big {
+  width: 180px;
+}
+
+.input--payment {
+  width: 100%;
+  height: 30px;
+}
+
+.input--num {
+  width: 45px;
+  text-align: center;
+}
+
+// ===== popup ======
+.popup {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  &__content {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 440px;
+    background-color: $light-color-2;
+    padding: 20px;
+    border-radius: 5px;
+  }
+}
+
+.popup-message {
+  z-index: 15;
+
+  &__content {
+    width: 60%;
+    margin: 0 auto;
+    max-width: 300px;
+    background-color: $accent2-color;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  &__message-info {
+    color: $light-text-color;
+    font-size: 18px;
+    text-align: center;
+  }
+}

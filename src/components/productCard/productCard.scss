@@ -1,0 +1,139 @@
+@import '../../sass/constants.scss';
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: $light-color-1;
+  border-radius: 5px;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.card__img {
+  margin: -5px -5px 0 -5px;
+  min-height: 100px;
+  height: 120px;
+}
+
+.card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__main-info {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 5px 0 0 0;
+  margin: 0 0 5px 0;
+}
+
+.card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: $accent1-color;
+  line-height: 1.2;
+}
+
+.card__price {
+  font-size: 20px;
+  font-weight: 700;
+  color: $accent2-color;
+}
+
+.card__info {
+  flex-grow: 1;
+}
+
+.card__info,
+.card__brand span {
+  font-size: 14px;
+  color: $text-color;
+}
+
+.card__info span {
+  font-weight: 700;
+}
+
+.card__brand {
+  font-weight: 700;
+  color: $accent1-color;
+}
+
+.card__btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 5px 0;
+  gap: 5px;
+}
+
+//=================
+//add class="view-2"
+
+.card.view-2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-height: 100px;
+  max-height: 120px;
+  gap: 5px;
+}
+
+.card.view-2 .card__img {
+  flex: 0 0 25%;
+  margin: 0px 5px -5px 0px;
+  max-width: 170px;
+  min-height: auto;
+  height: 100%;
+  overflow: hidden;
+}
+
+.card.view-2 .card__img img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card.view-2 .card__main-info {
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 0 0 120px;
+}
+
+.card.view-2 .card__title {
+  font-size: 16px;
+}
+
+.card.view-2 .card__price {
+  font-size: 18px;
+}
+
+.card.view-2 .card__info {
+  flex: 1 1 auto;
+}
+
+.card.view-2 .card__btns {
+  flex: 0 1 205px;
+}
+
+.btn.add-to-cart-btn:focus,
+.reset-btn.btn:focus {
+  background-color: $accent2-color;
+}
+
+.btn.add-to-cart-btn.added {
+  background-color: $accent1-color;
+}
+
+.btn.card__btn {
+  padding: 5px;
+}
+
+@media (max-width: 980px) {
+  .card__title {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,112 @@
+@import '../../sass/constants.scss';
+
+.header {
+  background-color: $accent2-color;
+
+  &__block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      color: $accent4-color;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &__image {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+        border-radius: 50%;
+        // background: url();
+        background: $accent5-color;
+        color: $accent1-color;
+        font-size: 22px;
+        line-height: 50px;
+        font-weight: 500;
+        text-align: center;
+        transition: 0.3s;
+      }
+
+      &__image:hover {
+        background: $accent4-color;
+        color: $light-color-1;
+      }
+
+      &__title {
+        color: $light-color-1;
+        font-size: 24px;
+        font-weight: 400;
+      }
+      &__title span {
+        color: $accent5-color;
+      }
+    }
+
+    .client {
+      display: flex;
+      align-items: center;
+
+      .total {
+        margin-right: 10px;
+        color: $light-text-color;
+        min-width: 200px;
+        font-size: 18px;
+
+        &__text {
+          color: $accent3-color;
+          margin-right: 5px;
+        }
+      }
+
+      .basket {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: $light-text-color;
+        width: 50px;
+        height: 50px;
+        margin: 0 12px 0 0;
+
+        &__container {
+          width: 30px;
+          height: 30px;
+          background-image: url('../../assets/png/shopping-cart/shopping-cart-green.png');
+          background-size: cover;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        &:hover .basket__container {
+          background-image: url('../../assets/png/shopping-cart/shopping-cart-purple.png');
+        }
+
+        &__num-block {
+          position: absolute;
+          right: -12px;
+          top: -12px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          color: $light-text-color;
+          background: $accent1-color;
+          transition: 0.3s;
+        }
+
+        &:hover .basket__num-block {
+          background: $accent5-color;
+          color: $text-color;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
