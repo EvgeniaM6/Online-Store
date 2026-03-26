@@ -1,0 +1,28 @@
+@import "../../sass/constants.scss";
+
+.page-404 {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: $light-color-1;
+
+  &__title {
+    font-size: 30px;
+    color: $accent1-color;
+  }
+  &__number {
+    font-size: 58px;
+    font-weight: 900;
+    color: $accent1-color;
+  }
+  &__link {
+    font-size: 20px;
+    font-weight: 500;
+    color: $accent2-color;
+  }
+  &__link:hover {
+    color: $accent1-color;
+  }
+}

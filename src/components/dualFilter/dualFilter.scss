@@ -1,0 +1,79 @@
+@import "../../sass/constants.scss";
+
+.dual-slider {
+  display: flex;
+  flex-direction: column;
+  background-color: $light-color-1;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 0 0 10px 0;
+
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 2px solid $accent4-color;
+    margin: 0 0 25px 0;
+  }
+  &__control {
+    position: relative;
+    min-height: 30px;
+  }
+
+  &__out-data {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 500;
+    color: $dark-color;
+    color: $accent1-color;
+    margin: 0 0 10px 0;
+  }
+}
+
+.dual-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: all;
+  width: 12px;
+  height: 12px;
+  background-color: $light-color-1;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px $accent2-color;
+  cursor: pointer;
+}
+
+.dual-slider input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  pointer-events: all;
+  width: 12px;
+  height: 12px;
+  background-color: $light-color-1;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px $accent2-color;
+  cursor: pointer;
+}
+
+.dual-slider input[type="range"]::-webkit-slider-thumb:hover,
+.dual-slider input[type="range"]::-webkit-slider-thumb:active {
+  background: $accent5-color;
+  box-shadow: 0 0 0 3px $accent1-color;
+}
+
+.dual-slider input[type="range"] {
+  -webkit-appearance: none;
+  position: absolute;
+  appearance: none;
+  height: 5px;
+  border-radius: 5px;
+  width: 100%;
+  background-color: $accent2-color;
+  pointer-events: none;
+}
+
+//поднимает первый ползунок-range над полосой
+//не переносить выше!
+.dual-slider .dual-slider__control .dual-slider__fromSlider {
+  height: 0;
+  z-index: 1;
+  top: 3px;
+}

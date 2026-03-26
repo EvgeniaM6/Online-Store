@@ -1,0 +1,40 @@
+@import "../../sass/constants.scss";
+
+.filter {
+  background-color: $light-color-1;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 0 0 10px 0;
+}
+
+.filter__title {
+  font-size: 18px;
+  font-weight: 500;
+  border-bottom: 2px solid $accent4-color;
+  margin: 0 0 5px 0;
+}
+
+.filter__list {
+  height: 120px;
+  overflow-y: auto;
+}
+
+.filter__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter__item label {
+  margin: 0 5px;
+}
+
+.filter__item input {
+  cursor: pointer;
+}
+
+.filter__item .filter__numbers {
+  margin-left: auto;
+  margin-right: 5px;
+  color: $accent1-color;
+}
